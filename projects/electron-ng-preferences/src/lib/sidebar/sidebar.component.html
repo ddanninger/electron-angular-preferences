@@ -1,0 +1,13 @@
+<div
+  class="sidebar-section"
+  *ngFor="let section of options?.sections"
+  [ngClass]="{ 'active': activeSection?.name === section.name }"
+  (click)="selectSection(section)"
+>
+  <fa-icon
+    class="section-icon"
+    [icon]="['fas', section.icon]"
+    [fixedWidth]="true"
+  ></fa-icon>
+  <span class="section-label">{{ section.label }}</span>
+</div>

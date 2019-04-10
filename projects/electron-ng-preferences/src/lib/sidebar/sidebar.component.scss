@@ -1,0 +1,29 @@
+.sidebar-section {
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  width: 199px;
+  min-width: 199px;
+  max-width: 199px;
+  overflow: hidden;
+  padding: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  &:hover, &.active {
+    background-color: #f5f5f5;
+  }
+
+  .section-icon {
+    margin-right: 4px;
+    width: 30px;
+    max-width: 30px;
+    min-width: 30px;
+  }
+
+  .section-label {
+    font-size: 12px;
+  }
+}

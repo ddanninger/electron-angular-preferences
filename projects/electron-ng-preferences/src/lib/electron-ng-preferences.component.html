@@ -1,0 +1,15 @@
+<div class="preference-window">
+<sidebar
+  [activeSection]="activeSection"
+  [options]="options"
+  [preferences]="preferences"
+  [defaults]="defaults"
+  (sectionChange)="sectionChanged($event)"
+></sidebar>
+<main
+  [activeSection]="activeSection"
+  [options]="options"
+  [preferences]="preferences"
+  [defaults]="defaults"
+></main>
+</div>

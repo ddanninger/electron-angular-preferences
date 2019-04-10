@@ -1,0 +1,17 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="groups">
+    <group
+      *ngFor="let group of activeSection?.form?.groups"
+      [group]="group"
+      [preferences]="prefs"
+      [form]="activeSectionForm"
+      [validationOn]="options.validationOn"
+    ></group>
+  </div>
+  <div class="bottom-bar">
+    <button type="submit" class="btn btn-primary">
+      <!-- [disabled]="!form.valid" -->
+      Save
+    </button>
+  </div>
+</form>

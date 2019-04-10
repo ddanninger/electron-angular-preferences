@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100%;
+  overflow: auto;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, Helvetica, sans-serif;
+}
+
+#window {
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.enter {
+  border: 1px solid green;
+}
+
+.enterActive {
+  border: 1px solid red;
+}
+
+.leave {
+  border: 1px solid blue;
+}
+
+.leaveActive {
+  border: 1px solid orange;
+}
+
+.appear {
+  border: 1px solid purple;
+}
+
+.appearActive {
+  border: 1px solid yellow;
+}

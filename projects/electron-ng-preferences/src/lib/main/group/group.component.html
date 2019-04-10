@@ -1,0 +1,25 @@
+<div class="group-label" *ngIf="group.label">{{ group.label }}</div>
+<div *ngFor="let field of fields">
+  <ng-container [ngSwitch]="field.type">
+    <textbox *ngSwitchCase="'text'" [field]="field" [form]="form"></textbox>
+    <dropdown
+      *ngSwitchCase="'dropdown'"
+      [field]="field"
+      [form]="form"
+    ></dropdown>
+    <checkbox
+      *ngSwitchCase="'checkbox'"
+      [field]="field"
+      [form]="form"
+    ></checkbox>
+    <radio *ngSwitchCase="'radio'" [field]="field" [form]="form"></radio>
+    <directory
+      *ngSwitchCase="'directory'"
+      [field]="field"
+      [form]="form"
+    ></directory>
+    <message *ngSwitchCase="'message'" [field]="field" [form]="form"></message>
+    <boolean *ngSwitchCase="'boolean'" [field]="field" [form]="form"></boolean>
+    <btnfield *ngSwitchCase="'button'" [field]="field" [form]="form"></btnfield>
+  </ng-container>
+</div>
