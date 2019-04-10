@@ -8,8 +8,8 @@
     "build:lib": "ng build electron-ng-preferences",
     "build:electron": "tsc -p tsconfig-electron.json",
     "build": "npm run build:lib && npm run build:app && npm run build:electron",
-    "start:example": "cd example && electron .",
-    "start": "npm run build && npm run start:example",
+    "example": "cd example && electron .",
+    "start": "npm run build && npm run example",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
