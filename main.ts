@@ -1,10 +1,13 @@
-import { app, BrowserWindow, ipcMain, webContents } from 'electron';
+import { BrowserWindow, ipcMain, webContents } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as fs from 'fs-extra';
 import * as _ from 'lodash';
 import { EventEmitter2 } from 'eventemitter2';
-import ping from 'ping';
+import { from, interval, of } from 'rxjs';
+import { map, take, switchMap } from 'rxjs/operators';
+import rxIpc from 'rx-ipc-electron-six/lib/main';
+// import ping from 'ping';
 
 /*export function register(): IpcMainApi {
   const api: IpcMainApi = {
@@ -120,9 +123,31 @@ export default class ElectronPreferences extends EventEmitter2 {
       event.returnValue = true;
     });
 
+    rxIpc.registerListener(
+      'runObservableValidator',
+      (name: string, value: string) => {
+        console.log('runObservableValidator', name, value);
+        if (this.options.validators && this.options.validators[name]) {
+          return this.options.validators[name](value);
+        }
+        return of({});
+      }
+    );
+
+    rxIpc.registerListener(
+      'runObservableAction',
+      (name: string, value: string) => {
+        console.log('runObservableAction', name, value);
+        if (this.options.actions && this.options.actions[name]) {
+          return this.options.actions[name](value);
+        }
+        return of({});
+      }
+    );
+
     ipcMain.on('runAction', (event, name, form) => {
       if (this.options.actions && this.options.actions[name]) {
-        const result = this.options.validators[name](form);
+        const result = this.options.actions[name](form);
         event.returnValue = result;
       }
       event.returnValue = null;

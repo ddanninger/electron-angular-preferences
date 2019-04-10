@@ -9,9 +9,5 @@
     "@fortawesome/free-regular-svg-icons": "^5.8.1",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "ngx-ui-switch": "^8.0.1"
-  },
-  "devDependencies": {},
-  "dependencies": {
-    
   }
 }

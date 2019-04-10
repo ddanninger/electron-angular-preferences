@@ -5,6 +5,9 @@ const app = electron.app;
 const path = require('path');
 const os = require('os');
 const ElectronPreferences = require('../dist/main').default;
+const ping = require('ping');
+const { from, interval } = require('rxjs');
+const { map, take, switchMap } = require('rxjs/operators');
 
 const preferences = new ElectronPreferences({
   dataStore: path.resolve(__dirname, 'preferences.json'),
@@ -44,6 +47,19 @@ const preferences = new ElectronPreferences({
         return true;
       }
       return false;
+    },
+    async_ping$: val => {
+      return interval(1000).pipe(
+        take(1),
+        switchMap(() => from(ping.promise.probe(val))),
+        map(({ alive, avg }) => {
+          console.log('async_ping$', alive, avg);
+          if (!alive) {
+            throw new Error(`Host "${val}" is unreachable`);
+          }
+          return true;
+        })
+      );
     }
   },
   validationOn: 'submit', // blur | submit
@@ -51,6 +67,21 @@ const preferences = new ElectronPreferences({
     btn_action: form => {
       console.log('run action btn_action', form);
       return 'My message is huhu';
+    },
+    btn_action$: form => {
+      console.log('run action btn_action$', form);
+      const domain = 'www.google.com';
+      return interval(1000).pipe(
+        take(1),
+        switchMap(() => from(ping.promise.probe(domain))),
+        map(({ alive, avg }) => {
+          console.log('btn_action$', alive, avg);
+          if (!alive) {
+            throw new Error(`Host "${domain}" is unreachable`);
+          }
+          return `I pinged ${domain} and avg=${avg}`;
+        })
+      );
     }
   },
   sections: [
@@ -63,14 +94,6 @@ const preferences = new ElectronPreferences({
           {
             label: 'About You',
             fields: [
-              {
-                label: 'Validate me',
-                name: 'validate_me',
-                type: 'text',
-                help: 'field must be "test"',
-                validator: 'validate_me',
-                errorMessage: 'Field value is not "test"!'
-              },
               {
                 label: 'First Name',
                 name: 'first_name',
@@ -119,6 +142,50 @@ const preferences = new ElectronPreferences({
     },
     {
       name: 'notes',
+      label: 'Validator and Actions',
+      icon: 'certificate',
+      form: {
+        groups: [
+          {
+            label: 'Stuff',
+            fields: [
+              {
+                label: 'Validate me',
+                name: 'validate_me',
+                type: 'text',
+                help: 'field must be "test"',
+                validator: 'validate_me',
+                errorMessage: 'Field value is not "test"!'
+              },
+              {
+                label: 'Async Ping test',
+                name: 'async_validate',
+                type: 'text',
+                help: 'Provide a domain to make a ping test',
+                validator: 'async_ping$',
+                errorMessage: 'Field value is not "test"!'
+              },
+              {
+                label: 'Test button',
+                name: 'button',
+                type: 'button',
+                action: 'btn_action',
+                help: 'Click me to do something'
+              },
+              {
+                label: 'Test button$',
+                name: 'button',
+                type: 'button',
+                action: 'btn_action$',
+                help: 'Ping me'
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      name: 'notes',
       label: 'Notes',
       icon: 'certificate',
       form: {
@@ -157,13 +224,6 @@ const preferences = new ElectronPreferences({
                 name: 'enable_debug',
                 type: 'boolean',
                 help: 'Do you want to enable the debug mode?'
-              },
-              {
-                label: 'Test button',
-                name: 'button',
-                type: 'button',
-                action: 'btn_action',
-                help: 'Click me to do something'
               },
               {
                 label: 'Phone Number',

@@ -61,12 +61,18 @@ export class GroupComponent implements OnInit {
             validators.push(Validators.required);
           }
           if (f.validator) {
-            validators.push(
-              dynamicValidatorFn(this.electronService, f.validator)
-            );
-            asyncValidators.push(
-              dynamicAsyncValidatorFn(this.validationService, f.validator)
-            );
+            const lastLetter = f.validator.substr(-1);
+            if (lastLetter === '$') {
+              console.log('validator is observable', f.validator);
+              asyncValidators.push(
+                dynamicAsyncValidatorFn(this.validationService, f.validator)
+              );
+            } else {
+              console.log('validator is normal', f.validator);
+              validators.push(
+                dynamicValidatorFn(this.electronService, f.validator)
+              );
+            }
           }
 
           fieldsCtrls[f.name] = new FormControl(

@@ -16,7 +16,7 @@ export function dynamicValidatorFn(
       value
     );
     if (!result) {
-      return { dynamicError: { value } };
+      return { dynamicError: true };
     }
     return null;
   };
@@ -32,7 +32,7 @@ export function dynamicAsyncValidatorFn(
     return validationService.validateAsync(validatorName, value).pipe(
       map(res => {
         console.log('dynamicAsyncValidatorFn validateAsync', res);
-        return res ? null : { emailTaken: true };
+        return res ? null : { dynamicError: true };
       })
     );
   };

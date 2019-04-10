@@ -1,3 +1,4 @@
+import { ValidationService } from './../../../services/validation.service';
 import { ElectronService } from './../../../services/electron.service';
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -21,9 +22,24 @@ export class BtnFieldComponent {
 
   message: string;
 
-  constructor(private electronService: ElectronService) {}
+  constructor(
+    private electronService: ElectronService,
+    private validationService: ValidationService
+  ) {}
 
   runAction() {
-    this.message = this.electronService.ipcRenderer.sendSync('runAction', this.form.value);
+    const actionName = this.field.action;
+    const lastLetter = actionName.substr(-1);
+    if (lastLetter === '$') {
+      this.validationService.actionAsync(actionName, this.form.value).subscribe(res => {
+        this.message = res;
+      });
+    } else {
+      this.message = this.electronService.ipcRenderer.sendSync(
+        'runAction',
+        actionName,
+        this.form.value
+      );
+    }
   }
 }

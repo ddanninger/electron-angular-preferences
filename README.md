@@ -30,7 +30,7 @@ To see the library in action, clone this repository and see the demo application
 
     $ git clone https://github.com/ddanninger/electron-angular-preferences.git
     $ cd electron-preferences
-    $ npm i
+    $ npm i --no-optional
     $ npm run build
     $ npm run example
 
