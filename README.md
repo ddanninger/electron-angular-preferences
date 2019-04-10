@@ -38,7 +38,7 @@ To see the library in action, clone this repository and see the demo application
 
 ### Initializing the Preferences Service
 
-Within your application's main process, create a new instance of the `ElectronPreferences` class, as shown below.
+Within your application's main process, create a new instance of the `ElectronPreferences` class, as shown below. [preferences.js](https://github.com/ddanninger/electron-angular-preferences/blob/master/example/preferences.js)
 
 ```
 const electron = require('electron');
@@ -51,11 +51,11 @@ const preferences = new ElectronPreferences({
     /**
      * Where should preferences be saved?
      */
-    'dataStore': path.resolve(app.getPath('userData'), 'preferences.json'),
+    dataStore: path.resolve(app.getPath('userData'), 'preferences.json'),
     /**
      * Default values.
      */
-    'defaults': {
+    defaults: {
         'notes': {
             'folder': path.resolve(os.homedir(), 'Notes')
         },
@@ -75,7 +75,7 @@ const preferences = new ElectronPreferences({
      * preferences are loaded for the first time. The return value of this method will be stored as the
      * preferences object.
      */
-    'onLoad': (preferences) => {
+    onLoad: (preferences) => {
         // ...
         return preferences;
     },
@@ -85,147 +85,170 @@ const preferences = new ElectronPreferences({
      window: {
          'icon': 'path-to-icon.png'
      },
+     /**
+     * Custom validators (value: string) => {}
+     * value is the filled value
+     */
+     validators: {
+     validate_me: val => {
+            if (val === 'test') {
+                return true;
+            }
+            return false;
+        }
+     },
+    /**
+    * Angular Validation Mechanism
+    */
+    validationOn: 'submit', // blur | submit | null or do not set empty for default behaviour
+    /**
+    * Actions to call for buttons ( e.g usecase you want to implement a "Test Connection" button)
+    * (form: []) => {} will return the group of the button , with the values of all form fields in this group
+    */
+    actions: {
+        btn_action: form => {
+            return 'This message will be shown inline';
+        }
+    },
     /**
      * The preferences window is divided into sections. Each section has a label, an icon, and one or
      * more fields associated with it. Each section should also be given a unique ID.
      */
-    'sections': [
-        {
-            'id': 'about',
-            'label': 'About You',
-            /**
-             * See the list of available icons below.
-             */
-            'icon': 'single-01',
-            'form': {
-                'groups': [
-                    {
-                        /**
-                         * Group heading is optional.
-                         */
-                        'label': 'About You',
-                        'fields': [
-                            {
-                                'label': 'First Name',
-                                'key': 'first_name',
-                                'type': 'text',
-                                /**
-                                 * Optional text to be displayed beneath the field.
-                                 */
-                                'help': 'What is your first name?'
-                            },
-                            {
-                                'label': 'Last Name',
-                                'key': 'last_name',
-                                'type': 'text',
-                                'help': 'What is your last name?'
-                            },
-                            {
-                                'label': 'Gender',
-                                'key': 'gender',
-                                'type': 'dropdown',
-                                'options': [
-                                    {'label': 'Male', 'value': 'male'},
-                                    {'label': 'Female', 'value': 'female'},
-                                    {'label': 'Unspecified', 'value': 'unspecified'},
-                                ],
-                                'help': 'What is your gender?'
-                            },
-                            {
-                                'label': 'Which of the following foods do you like?',
-                                'key': 'foods',
-                                'type': 'checkbox',
-                                'options': [
-                                    { 'label': 'Ice Cream', 'value': 'ice_cream' },
-                                    { 'label': 'Carrots', 'value': 'carrots' },
-                                    { 'label': 'Cake', 'value': 'cake' },
-                                    { 'label': 'Spinach', 'value': 'spinach' }
-                                ],
-                                'help': 'Select one or more foods that you like.'
-                            },
-                            {
-                                'label': 'Coolness',
-                                'key': 'coolness',
-                                'type': 'slider',
-                                'min': 0,
-                                'max': 9001
-                            },
-                            {
-                                'label': 'Eye Color',
-                               'key': 'eye_color',
-                                'type': 'color',
-                                'format': 'hex', // can be hex, hsl or rgb
-                                'help': 'Your eye color'
-                            },
-                            {
-                                'label': 'Hair Color',
-                                'key': 'hair_color',
-                                'type': 'color',
-                                'format': 'rgb',
-                                'help': 'Your hair color'
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        {
-            'id': 'notes',
-            'label': 'Notes',
-            'icon': 'folder-15',
-            'form': {
-                'groups': [
-                    {
-                        'label': 'Stuff',
-                        'fields': [
-                            {
-                                'label': 'Read notes from folder',
-                                'key': 'folder',
-                                'type': 'directory',
-                                'help': 'The location where your notes will be stored.'
-                            },
-                            {
-                                'heading': 'Important Message',
-                                'content': '<p>The quick brown fox jumps over the long white fence. The quick brown fox jumps over the long white fence. The quick brown fox jumps over the long white fence. The quick brown fox jumps over the long white fence.</p>',
-                                'type': 'message',
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        {
-            'id': 'space',
-            'label': 'Other Settings',
-            'icon': 'spaceship',
-            'form': {
-                'groups': [
-                    {
-                        'label': 'Other Settings',
-                        'fields': [
-                            {
-                                'label': 'Phone Number',
-                                'key': 'phone_number',
-                                'type': 'text',
-                                'help': 'What is your phone number?'
-                            },
-                            {
-                                'label': "Foo or Bar?",
-                                'key': 'foobar',
-                                'type': 'radio',
-                                'options': [
-                                    {'label': 'Foo', 'value': 'foo'},
-                                    {'label': 'Bar', 'value': 'bar'},
-                                    {'label': 'FooBar', 'value': 'foobar'},
-                                ],
-                                'help': 'Foo? Bar?'
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    ]
+    sections: [
+    {
+      name: 'about',
+      label: 'About You',
+      icon: 'globe',
+      form: {
+        groups: [
+          {
+            label: 'About You',
+            fields: [
+              {
+                label: 'Validate me',
+                name: 'validate_me',
+                type: 'text',
+                help: 'field must be "test"',
+                validator: 'validate_me',
+                errorMessage: 'Field value is not "test"!'
+              },
+              {
+                label: 'First Name',
+                name: 'first_name',
+                type: 'text',
+                help: 'What is your first name?'
+              },
+              {
+                label: 'Last Name',
+                name: 'last_name',
+                type: 'text',
+                help: 'What is your last name?'
+              },
+              {
+                label: 'Gender',
+                name: 'gender',
+                type: 'dropdown',
+                options: [
+                  { label: 'Male', value: 'male' },
+                  { label: 'Female', value: 'female' },
+                  { label: 'Unspecified', value: 'unspecified' }
+                ],
+                help: 'What is your gender?'
+              },
+              {
+                label: 'Age',
+                name: 'age',
+                type: 'text',
+                inputType: 'number'
+              },
+              {
+                label: 'Which of the following foods do you like?',
+                name: 'foods',
+                type: 'checkbox',
+                options: [
+                  { label: 'Ice Cream', value: 'ice_cream' },
+                  { label: 'Carrots', value: 'carrots' },
+                  { label: 'Cake', value: 'cake' },
+                  { label: 'Spinach', value: 'spinach' }
+                ],
+                help: 'Select one or more foods that you like.'
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      name: 'notes',
+      label: 'Notes',
+      icon: 'certificate',
+      form: {
+        groups: [
+          {
+            label: 'Stuff',
+            fields: [
+              {
+                label: 'Read notes from folder',
+                name: 'folder',
+                type: 'directory',
+                help: 'The location where your notes will be stored.'
+              },
+              {
+                heading: 'Important Message',
+                content:
+                  '<p>The quick brown fox jumps over the long white fence. The quick brown fox jumps over the long white fence. The quick brown fox jumps over the long white fence. The quick brown fox jumps over the long white fence.</p>',
+                type: 'message'
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      name: 'space',
+      label: 'Other Settings',
+      icon: 'folder',
+      form: {
+        groups: [
+          {
+            label: 'Other Settings',
+            fields: [
+              {
+                label: 'Enable',
+                name: 'enable_debug',
+                type: 'boolean',
+                help: 'Do you want to enable the debug mode?'
+              },
+              {
+                label: 'Test button',
+                name: 'button',
+                type: 'button',
+                action: 'btn_action',
+                help: 'Click me to do something'
+              },
+              {
+                label: 'Phone Number',
+                name: 'phone_number',
+                type: 'text',
+                help: 'What is your phone number?'
+              },
+              {
+                label: 'Foo or Bar?',
+                name: 'foobar',
+                type: 'radio',
+                options: [
+                  { label: 'Foo', value: 'foo' },
+                  { label: 'Bar', value: 'bar' },
+                  { label: 'FooBar', value: 'foobar' }
+                ],
+                help: 'Foo? Bar?'
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
 });
 ```
 
