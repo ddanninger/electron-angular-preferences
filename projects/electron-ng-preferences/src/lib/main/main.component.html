@@ -9,6 +9,9 @@
     ></group>
   </div>
   <div class="bottom-bar">
+    <span *ngIf="form.valid">VALID</span>
+    <span *ngIf="form.invalid">INVALID</span>
+    <span *ngIf="form.pending">PENDING</span>
     <button type="submit" class="btn btn-primary">
       <!-- [disabled]="!form.valid" -->
       Save

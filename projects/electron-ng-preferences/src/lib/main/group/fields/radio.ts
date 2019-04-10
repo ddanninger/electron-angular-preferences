@@ -17,11 +17,11 @@ import { FormGroup } from '@angular/forms';
           />
           <label>{{ opt.label }}</label>
         </div>
-        <span class="error-message" *ngIf="field.errors?.required"
+        <span class="error-message" *ngIf="control.errors?.required"
           >Please fill out this field.</span
         >
-        <span class="error-message" *ngIf="field.errors?.dynamicError">{{
-          field.help
+        <span class="error-message" *ngIf="control.errors?.dynamicError && field.errorMessage">{{
+          field.errorMessage
         }}</span>
         <span class="help" *ngIf="field.help">{{ field.help }}</span>
       </div>
@@ -34,5 +34,9 @@ export class RadioComponent {
 
   get value() {
     return this.form.controls[this.field.name].value;
+  }
+
+  get control() {
+    return this.form.controls[this.field.name];
   }
 }

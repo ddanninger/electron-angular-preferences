@@ -55,7 +55,8 @@ const preferences = new ElectronPreferences({
         map(({ alive, avg }) => {
           console.log('async_ping$', alive, avg);
           if (!alive) {
-            throw new Error(`Host "${val}" is unreachable`);
+            console.warn(`Host "${val}" is unreachable`);
+            return false;
           }
           return true;
         })
@@ -77,7 +78,7 @@ const preferences = new ElectronPreferences({
         map(({ alive, avg }) => {
           console.log('btn_action$', alive, avg);
           if (!alive) {
-            throw new Error(`Host "${domain}" is unreachable`);
+            return `I couldnt ping ${domain}`;
           }
           return `I pinged ${domain} and avg=${avg}`;
         })
@@ -141,7 +142,7 @@ const preferences = new ElectronPreferences({
       }
     },
     {
-      name: 'notes',
+      name: 'valandaction',
       label: 'Validator and Actions',
       icon: 'certificate',
       form: {

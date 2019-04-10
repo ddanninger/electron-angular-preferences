@@ -56,10 +56,15 @@ export class MainComponent implements OnInit {
     console.log('save', this.form, this.form.value);
     if (this.form.valid) {
       console.log('form is valid');
+
       const values = this.form.value;
       /*values.map(v => {
       return v;
     });*/
+    } else if (this.form.pending) {
+      this.form.statusChanges.subscribe(status => {
+        console.log('statusChanges form was pending and now is', status);
+      });
     }
   }
 
