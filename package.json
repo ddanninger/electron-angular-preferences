@@ -1,5 +1,6 @@
 {
   "name": "electron-angular-preferences",
+  "description": "Electron extendable preference window build in angular 7",
   "version": "1.0.0",
   "main": "./dist/main.js",
   "author": "Dominik Danninger <ddanninger@gmail.com>",
@@ -16,7 +17,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "repository": {
+	  "type" : "git",
+	  "url" : "https://github.com/ddanninger/electron-angular-preferences.git"
+	},
   "dependencies": {
     "@angular/animations": "~7.2.0",
     "@angular/common": "~7.2.0",
