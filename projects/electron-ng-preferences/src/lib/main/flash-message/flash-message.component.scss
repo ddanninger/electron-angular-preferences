@@ -1,0 +1,29 @@
+.flashMessage {
+  text-align: center;
+  border: none;
+  padding: 5px 10px;
+  color: #fff;
+  font-size: 14px;
+  display: inline;
+  margin-right: 15px;
+  &.flashSuccess {
+    background: #025f2b;
+  }
+
+  &.flashError {
+    background: #ad0909;
+  }
+}
+
+.animateCss {
+  -webkit-transition: opacity 1000ms ease-in-out, margin-left 500ms ease-in-out;
+  -moz-transition: opacity 1000ms ease-in-out, margin-left 500ms ease-in-out;
+  -ms-transition: opacity 1000ms ease-in-out, margin-left 500ms ease-in-out;
+  -o-transition: opacity 1000ms ease-in-out, margin-left 500ms ease-in-out;
+  transition: opacity 1000ms ease-in-out, margin-left 500ms ease-in-out;
+  opacity: 0;
+}
+
+.showFlashmessage {
+  opacity: 2;
+}
