@@ -61,14 +61,9 @@ var ElectronPreferences = /** @class */ (function (_super) {
             _this.preferences = _this.defaults;
         }
         else {
-            // if config file gets populated from other sources as well the file exists already therefore 
+            // if config file gets populated from other sources as well the file exists already therefore
             // set default properties before preferences
             _this.preferences = _.merge(_this.defaults, _this.preferences);
-            /*Object.keys(this.defaults).forEach(dKey => {
-              if (!this.preferences[dKey]) {
-                this.preferences[dKey] = this.defaults[dKey];
-              }
-            });*/
         }
         if (options.onLoad instanceof Function) {
             _this.preferences = options.onLoad(_this.preferences);

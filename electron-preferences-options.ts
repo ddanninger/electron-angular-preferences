@@ -1,5 +1,5 @@
 import { WebPreferences, BrowserWindowConstructorOptions } from 'electron';
-import { SectionForm } from 'projects/electron-ng-preferences/src/lib/types/preference.types';
+import { SectionForm } from 'electron-ng-preferences/lib/types/preference.types';
 
 export interface ElectronPreferencesValidators {
   // tslint:disable-next-line:ban-types

@@ -1229,6 +1229,11 @@ ElectronNgPreferencesModule.ctorParameters = () => [];
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
 export { ElectronNgPreferencesComponent, ElectronNgPreferencesModule, FlashMessageComponent as ɵf, BooleanComponent as ɵm, BtnFieldComponent as ɵn, CheckBoxComponent as ɵg, DirectoryComponent as ɵh, DropDownComponent as ɵk, MessageComponent as ɵl, RadioComponent as ɵj, TextBoxComponent as ɵi, GroupComponent as ɵd, MainComponent as ɵb, ElectronService as ɵa, ValidationService as ɵe, SidebarComponent as ɵc };
 
 //# sourceMappingURL=electron-ng-preferences.js.map

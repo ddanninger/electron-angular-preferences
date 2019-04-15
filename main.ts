@@ -1,3 +1,4 @@
+import { ElectronPreferencesOptions } from './electron-preferences-options';
 import { BrowserWindow, ipcMain, webContents } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
@@ -7,7 +8,6 @@ import { EventEmitter2 } from 'eventemitter2';
 import { from, interval, of } from 'rxjs';
 import { map, take, switchMap } from 'rxjs/operators';
 import rxIpc from 'rx-ipc-electron-six/lib/main';
-import { ElectronPreferencesOptions } from 'src/types/electron-preferences-options';
 
 export default class ElectronPreferences extends EventEmitter2 {
   options: any;
@@ -54,14 +54,9 @@ export default class ElectronPreferences extends EventEmitter2 {
     if (!this.preferences) {
       this.preferences = this.defaults;
     } else {
-      // if config file gets populated from other sources as well the file exists already therefore 
+      // if config file gets populated from other sources as well the file exists already therefore
       // set default properties before preferences
       this.preferences = _.merge(this.defaults, this.preferences);
-      /*Object.keys(this.defaults).forEach(dKey => {
-        if (!this.preferences[dKey]) {
-          this.preferences[dKey] = this.defaults[dKey];
-        }
-      });*/
     }
 
     if (options.onLoad instanceof Function) {

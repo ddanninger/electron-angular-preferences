@@ -2,7 +2,7 @@ import { isBoolean } from 'util';
 import { __values } from 'tslib';
 import { map, catchError, take, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Injectable, Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, defineInjectable, inject, NgModule } from '@angular/core';
+import { Injectable, Component, Input, Output, EventEmitter, defineInjectable, inject, ChangeDetectionStrategy, ChangeDetectorRef, NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -1250,6 +1250,11 @@ var ElectronNgPreferencesModule = /** @class */ (function () {
     ElectronNgPreferencesModule.ctorParameters = function () { return []; };
     return ElectronNgPreferencesModule;
 }());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 
 /**
  * @fileoverview added by tsickle
