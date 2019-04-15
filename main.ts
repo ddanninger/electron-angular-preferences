@@ -7,31 +7,7 @@ import { EventEmitter2 } from 'eventemitter2';
 import { from, interval, of } from 'rxjs';
 import { map, take, switchMap } from 'rxjs/operators';
 import rxIpc from 'rx-ipc-electron-six/lib/main';
-// import ping from 'ping';
-
-/*export function register(): IpcMainApi {
-  const api: IpcMainApi = {
-    ping: ({ domain, times }) =>
-      interval(1000).pipe(
-        take(times),
-        switchMap(() => from(ping.promise.probe(domain))),
-        map(({ alive, avg }: any) => {
-          if (!alive) {
-            throw new Error(`Host "${domain}" is unreachable`);
-          }
-          return { domain, value: Number(avg) };
-        })
-      ),
-    quitApp: () => {
-      app.quit();
-      return EMPTY;
-    }
-  };
-
-  IPC_MAIN_API_SERVICE.registerApi(api);
-
-  return api;
-}*/
+import { ElectronPreferencesOptions } from 'src/types/electron-preferences-options';
 
 export default class ElectronPreferences extends EventEmitter2 {
   options: any;
@@ -39,7 +15,7 @@ export default class ElectronPreferences extends EventEmitter2 {
   _preferences: any;
   prefsWindow: any;
 
-  constructor(options: any = {}) {
+  constructor(options: ElectronPreferencesOptions = {} as any) {
     super();
 
     options = {
@@ -77,6 +53,15 @@ export default class ElectronPreferences extends EventEmitter2 {
 
     if (!this.preferences) {
       this.preferences = this.defaults;
+    } else {
+      // if config file gets populated from other sources as well the file exists already therefore 
+      // set default properties before preferences
+      this.preferences = _.merge(this.defaults, this.preferences);
+      /*Object.keys(this.defaults).forEach(dKey => {
+        if (!this.preferences[dKey]) {
+          this.preferences[dKey] = this.defaults[dKey];
+        }
+      });*/
     }
 
     if (options.onLoad instanceof Function) {
@@ -108,7 +93,8 @@ export default class ElectronPreferences extends EventEmitter2 {
     });
 
     ipcMain.on('setPreferences', (event, value) => {
-      this.preferences = value;
+      console.log('setPreferences', value);
+      this.preferences = { ...this.preferences, ...value };
       this.save();
       this.broadcast();
       this.emit('save', Object.freeze(_.cloneDeep(this.preferences)));
@@ -179,9 +165,19 @@ export default class ElectronPreferences extends EventEmitter2 {
   }
 
   save() {
-    fs.writeJsonSync(this.dataStore, this.preferences, {
-      spaces: 4
+    let jsonFile = fs.readJsonSync(this.dataStore, {
+      throws: false
     });
+    if (!jsonFile) {
+      jsonFile = {};
+    }
+    fs.writeJsonSync(
+      this.dataStore,
+      { ...jsonFile, ...this.preferences },
+      {
+        spaces: 4
+      }
+    );
   }
 
   value(key, value) {

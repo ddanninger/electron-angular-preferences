@@ -26,7 +26,8 @@ const preferences = new ElectronPreferences({
       show: true
     },
     about: {
-      first_name: 'hello'
+      first_name: 'hello',
+      last_name: 'lastname'
     }
   },
   onLoad: data => {
@@ -105,6 +106,8 @@ const preferences = new ElectronPreferences({
                 label: 'Last Name',
                 name: 'last_name',
                 type: 'text',
+                fixedValue: os.hostname(),
+                readonly: true,
                 help: 'What is your last name?'
               },
               {
@@ -159,7 +162,7 @@ const preferences = new ElectronPreferences({
                 validator: 'validate_me',
                 errorMessage: 'Field value is not "test"!'
               },
-              {
+              /*{
                 label: 'Async Ping test',
                 name: 'async_validate',
                 type: 'text',
@@ -167,7 +170,7 @@ const preferences = new ElectronPreferences({
                 help: 'Provide a domain to make a ping test',
                 validator: 'async_ping$',
                 errorMessage: 'Field value is not "test"!'
-              },
+              },*/
               {
                 label: 'Test button',
                 name: 'button',

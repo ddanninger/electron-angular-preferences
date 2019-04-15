@@ -4,6 +4,8 @@ export declare class CheckBoxComponent {
     form: FormGroup;
     readonly isValid: boolean;
     readonly isDirty: boolean;
-    readonly value: any;
+    value: any;
     readonly control: import("@angular/forms").AbstractControl;
+    onChecklistChange(checked: any, opt: any): void;
+    flattenValues(checkboxes: any): any;
 }

@@ -1,3 +1,4 @@
+import { FlashMessageComponent } from './main/flash-message/flash-message.component';
 import { BtnFieldComponent } from './main/group/fields/button';
 import { BooleanComponent } from './main/group/fields/boolean';
 import { MessageComponent } from './main/group/fields/message';
@@ -26,6 +27,7 @@ import { ValidationService } from './services/validation.service';
     MainComponent,
     SidebarComponent,
     GroupComponent,
+    FlashMessageComponent,
     CheckBoxComponent,
     DirectoryComponent,
     TextBoxComponent,

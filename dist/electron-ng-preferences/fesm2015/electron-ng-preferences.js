@@ -6,7 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UiSwitchModule } from 'ngx-ui-switch';
 
 /**
@@ -111,6 +111,70 @@ ElectronNgPreferencesComponent.decorators = [
 ElectronNgPreferencesComponent.ctorParameters = () => [
     { type: ElectronService }
 ];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class FlashMessageComponent {
+    constructor() {
+        this.showMessage = false;
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        this.manageMessage(changes.message.currentValue);
+    }
+    /**
+     * @param {?} message
+     * @return {?}
+     */
+    manageMessage(message) {
+        if (message && message.message && message.message.length > 0) {
+            this.message = message;
+            this.showMessage = true;
+            setTimeout((/**
+             * @return {?}
+             */
+            () => {
+                this.showMessage = false;
+                this.message = null;
+            }), 8000);
+        }
+    }
+}
+FlashMessageComponent.decorators = [
+    { type: Component, args: [{
+                // tslint:disable-next-line:component-selector
+                selector: 'flash-message',
+                template: `
+    <div
+      class="flashMessage animateCss"
+      [ngClass]="{
+        showFlashmessage: showMessage,
+        flashSuccess: message?.level === 'success',
+        flashError: message?.level === 'error'
+      }"
+      [hidden]="!showMessage"
+    >
+      <span>{{ message?.message }}</span>
+    </div>
+  `,
+                styles: [".flashMessage{text-align:center;border:none;padding:5px 10px;color:#fff;font-size:14px;display:inline;margin-right:15px}.flashMessage.flashSuccess{background:#025f2b}.flashMessage.flashError{background:#ad0909}.animateCss{transition:opacity 1s ease-in-out,margin-left .5s ease-in-out;opacity:0}.showFlashmessage{opacity:2}"]
+            }] }
+];
+/** @nocollapse */
+FlashMessageComponent.ctorParameters = () => [];
+FlashMessageComponent.propDecorators = {
+    message: [{ type: Input }]
+};
+/** @enum {string} */
+const FlashMessageLevel = {
+    SUCCESS: 'success',
+    ERROR: 'error',
+};
 
 /**
  * @fileoverview added by tsickle
@@ -265,7 +329,7 @@ BooleanComponent.decorators = [
                 template: `
     <div class="field field-boolean">
       <div class="field-label">{{ field.label }}</div>
-      <ui-switch (change)="onChange($event)"></ui-switch>
+      <ui-switch [checked]="value" (change)="onChange($event)"></ui-switch>
       <span class="error-message" *ngIf="control.errors?.required"
         >Please fill out this field.</span
       ><span class="waiting-message" *ngIf="control.status === 'PENDING'">
@@ -478,6 +542,8 @@ TextBoxComponent.decorators = [
           [id]="field.name"
           [name]="field.name"
           [formControlName]="field.name"
+          [readonly]="field.readonly"
+          [ngClass]="{ 'field-readonly': field.readonly }"
         />
         <span class="error-message" *ngIf="control.errors?.required"
           >Please fill out this field.</span
@@ -569,9 +635,14 @@ DirectoryComponent.decorators = [
         <span class="error-message" *ngIf="control.errors?.required"
           >Please fill out this field.</span
         >
-        <span class="error-message" *ngIf="control.errors?.dynamicError && field.errorMessage">{{
-          field.errorMessage
-        }}</span>
+        <span
+          class="error-message"
+          *ngIf="control.errors?.dynamicError && field.errorMessage"
+          >{{ field.errorMessage }}</span
+        >
+        <span class="waiting-message" *ngIf="control.status === 'PENDING'">
+          Validating...
+        </span>
         <span class="help" *ngIf="field.help">{{ field.help }}</span>
         <input [formControlName]="field.name" type="hidden" />
       </div>
@@ -615,10 +686,41 @@ class CheckBoxComponent {
         return this.form.controls[this.field.name].value;
     }
     /**
+     * @param {?} val
+     * @return {?}
+     */
+    set value(val) {
+        this.form.controls[this.field.name].setValue(val);
+    }
+    /**
      * @return {?}
      */
     get control() {
         return this.form.controls[this.field.name];
+    }
+    /**
+     * @param {?} checked
+     * @param {?} opt
+     * @return {?}
+     */
+    onChecklistChange(checked, opt) {
+        opt.checked = checked;
+        this.value = this.flattenValues(this.field.options);
+    }
+    /**
+     * @param {?} checkboxes
+     * @return {?}
+     */
+    flattenValues(checkboxes) {
+        return checkboxes.filter((/**
+         * @param {?} c
+         * @return {?}
+         */
+        c => c.checked)).map((/**
+         * @param {?} c
+         * @return {?}
+         */
+        c => c.value));
     }
 }
 CheckBoxComponent.decorators = [
@@ -633,18 +735,22 @@ CheckBoxComponent.decorators = [
           <input
             type="checkbox"
             id="{{ field.name }}"
-            [formControlName]="opt.label"
+            [checked]="opt.checked"
+            [value]="opt.value"
+            (change)="onChecklistChange($event.target.checked, opt)"
           />
           <label>{{ opt.label }}</label>
         </div>
         <span class="error-message" *ngIf="control.errors?.required"
           >Please fill out this field.</span
         ><span class="waiting-message" *ngIf="control.status === 'PENDING'">
-        Validating...
-      </span>
-        <span class="error-message" *ngIf="control.errors?.dynamicError && field.errorMessage">{{
-          field.errorMessage
-        }}</span>
+          Validating...
+        </span>
+        <span
+          class="error-message"
+          *ngIf="control.errors?.dynamicError && field.errorMessage"
+          >{{ field.errorMessage }}</span
+        >
         <span class="help" *ngIf="field.help">{{ field.help }}</span>
       </div>
     </div>
@@ -785,10 +891,6 @@ class GroupComponent {
      * @return {?}
      */
     ngOnInit() {
-        // const validatorOptions: any = {};
-        // if (this.validationOn) {
-        //   validatorOptions.updateOn = this.validationOn;
-        // }
         console.log('group.component', this.group);
         if (this.group && this.group.fields) {
             /** @type {?} */
@@ -798,7 +900,8 @@ class GroupComponent {
                     // do nothing
                     return;
                 }
-                else if (f.type !== 'checkbox') {
+                else {
+                    // if (f.type !== 'checkbox') {
                     /** @type {?} */
                     const validators = [];
                     /** @type {?} */
@@ -818,21 +921,28 @@ class GroupComponent {
                             validators.push(dynamicValidatorFn(this.electronService, this.cdRef, f.validator));
                         }
                     }
+                    if (f.type === 'checkbox' && f.options && this.preferences[f.name]) {
+                        f.options.map((/**
+                         * @param {?} o
+                         * @return {?}
+                         */
+                        o => (o.checked = this.preferences[f.name].includes(o.value))));
+                    }
+                    if (f.fixedValue) {
+                        this.preferences[f.name] = f.fixedValue;
+                    }
                     fieldsCtrls[f.name] = new FormControl(this.preferences[f.name] || '', validators, asyncValidators);
-                }
-                else {
-                    /** @type {?} */
-                    const opts = {};
-                    for (const opt of f.options) {
-                        opts[opt.label] = new FormControl(opt.value);
-                    }
-                    /** @type {?} */
-                    const formGroup = new FormGroup(opts);
-                    if (this.preferences[f.name]) {
-                        formGroup.setValue(this.preferences[f.name]);
-                    }
-                    fieldsCtrls[f.name] = formGroup;
-                }
+                } /* else {
+                  const opts = {};
+                  for (const opt of f.options) {
+                    opts[opt.label] = new FormControl(opt.value);
+                  }
+                  const formGroup = new FormGroup(opts);
+                  if (this.preferences[f.name]) {
+                    formGroup.setValue(this.preferences[f.name]);
+                  }
+                  fieldsCtrls[f.name] = formGroup;
+                }*/
                 this.form.addControl(f.name, fieldsCtrls[f.name]);
             }
             // this.internalForm = new FormGroup(fieldsCtrls);
@@ -847,7 +957,7 @@ GroupComponent.decorators = [
                 selector: 'group',
                 template: "<div class=\"group-label\" *ngIf=\"group.label\">{{ group.label }}</div>\n<div *ngFor=\"let field of fields\">\n  <ng-container [ngSwitch]=\"field.type\">\n    <textbox *ngSwitchCase=\"'text'\" [field]=\"field\" [form]=\"form\"></textbox>\n    <dropdown\n      *ngSwitchCase=\"'dropdown'\"\n      [field]=\"field\"\n      [form]=\"form\"\n    ></dropdown>\n    <checkbox\n      *ngSwitchCase=\"'checkbox'\"\n      [field]=\"field\"\n      [form]=\"form\"\n    ></checkbox>\n    <radio *ngSwitchCase=\"'radio'\" [field]=\"field\" [form]=\"form\"></radio>\n    <directory\n      *ngSwitchCase=\"'directory'\"\n      [field]=\"field\"\n      [form]=\"form\"\n    ></directory>\n    <message *ngSwitchCase=\"'message'\" [field]=\"field\" [form]=\"form\"></message>\n    <boolean *ngSwitchCase=\"'boolean'\" [field]=\"field\" [form]=\"form\"></boolean>\n    <btnfield *ngSwitchCase=\"'button'\" [field]=\"field\" [form]=\"form\"></btnfield>\n  </ng-container>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: ["::ng-deep .group-label{font-size:16px;font-weight:700;text-transform:uppercase;border-bottom:1px dashed #000;margin-bottom:10px}::ng-deep .field{margin-bottom:20px}::ng-deep .field:last-child{margin-bottom:0}::ng-deep .field .field-label{border-bottom:1px dashed #ccc;margin-bottom:10px}::ng-deep .field .help{display:block;padding-top:5px;padding-bottom:5px;font-size:12px}::ng-deep .field .btn{display:inline-block;background-color:#d9dadb;color:#000;padding:5px;border-radius:0;margin-top:5px;border:1px solid rgba(0,0,0,.25)}::ng-deep .field .btn:hover{cursor:pointer;background-color:#a7a8a8}::ng-deep .field-text input{width:100%;font-size:14px;padding:4px}::ng-deep .field-dropdown select{width:100%;font-size:14px;padding:4px}::ng-deep .field-button .messsage{display:block;padding-top:5px;padding-bottom:5px;font-size:12px}::ng-deep .field-message .field-heading{border-bottom:1px dashed #ccc;margin-bottom:10px}::ng-deep .error-message{display:block;padding-top:5px;padding-bottom:5px;font-size:12px;color:#8c0707}"]
+                styles: ["::ng-deep .group-label{font-size:16px;font-weight:700;text-transform:uppercase;border-bottom:1px dashed #000;margin-bottom:10px}::ng-deep .field{margin-bottom:20px}::ng-deep .field:last-child{margin-bottom:0}::ng-deep .field .field-label{border-bottom:1px dashed #ccc;margin-bottom:10px}::ng-deep .field .help{display:block;padding-top:5px;padding-bottom:5px;font-size:12px}::ng-deep .field .btn{display:inline-block;background-color:#d9dadb;color:#000;padding:5px;border-radius:0;margin-top:5px;border:1px solid rgba(0,0,0,.25)}::ng-deep .field .btn:hover{cursor:pointer;background-color:#a7a8a8}::ng-deep .field-text input{width:100%;font-size:14px;padding:4px;background:#fff;border:1px solid #dadada}::ng-deep .field-readonly{background:#d9dadb!important;border:1px solid #dadada!important}::ng-deep .field-dropdown select{width:100%;font-size:14px;padding:4px;background:#fff;border:1px solid #dadada}::ng-deep .field-button .message{display:block;padding-top:5px;padding-bottom:5px;font-size:12px}::ng-deep .field-message .field-heading{border-bottom:1px dashed #ccc;margin-bottom:10px}::ng-deep .error-message{display:block;padding-top:5px;padding-bottom:5px;font-size:12px;color:#8c0707}"]
             }] }
 ];
 /** @nocollapse */
@@ -922,10 +1032,10 @@ SidebarComponent.propDecorators = {
  */
 class MainComponent {
     /**
-     * @param {?} fb
+     * @param {?} electronService
      */
-    constructor(fb) {
-        this.fb = fb;
+    constructor(electronService) {
+        this.electronService = electronService;
     }
     /**
      * @return {?}
@@ -943,7 +1053,7 @@ class MainComponent {
      * @return {?}
      */
     ngOnInit() {
-        console.log('main.component', this.preferences, this.options, this.defaults, this.activeSection);
+        console.log('main.component->', this.preferences, this.options, this.defaults, this.activeSection);
         /** @type {?} */
         const validatorOptions = {};
         if (this.options.validationOn) {
@@ -965,14 +1075,14 @@ class MainComponent {
      * @return {?}
      */
     save() {
-        console.log('save', this.form, this.form.value);
+        console.log('save', this.form, this.form.valid, this.form.value);
         if (this.form.valid) {
             console.log('form is valid');
             /** @type {?} */
-            const values = this.form.value;
-            /*values.map(v => {
-            return v;
-          });*/
+            const preferences = this.form.value;
+            console.log('values', preferences);
+            this.showSavedMessage();
+            this.electronService.ipcRenderer.send('setPreferences', preferences);
         }
         else if (this.form.pending) {
             this.form.statusChanges.subscribe((/**
@@ -981,27 +1091,87 @@ class MainComponent {
              */
             status => {
                 console.log('statusChanges form was pending and now is', status);
+                if (status === 'VALID') {
+                    this.save();
+                }
             }));
+        }
+        else {
+            this.showErrorMessage();
         }
     }
     /**
      * @return {?}
      */
-    onSubmit() {
+    showSavedMessage() {
+        this.flashMessage = {
+            message: 'Successfully saved.',
+            level: FlashMessageLevel.SUCCESS
+        };
+    }
+    /**
+     * @return {?}
+     */
+    showErrorMessage() {
+        this.flashMessage = {
+            message: 'Form is not valid.',
+            level: FlashMessageLevel.ERROR
+        };
+    }
+    /**
+     * @param {?} e
+     * @return {?}
+     */
+    onSubmit(e) {
         console.log('onsubmit', this.form.valid, this.form, this.form.value);
+        this.save();
+        e.preventDefault();
+        return false;
+    }
+    /**
+     * @param {?} section
+     * @return {?}
+     */
+    sectionForm(section) {
+        return this.form.get(section.name);
+    }
+    /**
+     * @param {?} section
+     * @return {?}
+     */
+    sectionPreferences(section) {
+        return this.preferences[section.name];
+    }
+    /**
+     * @param {?} group
+     * @return {?}
+     */
+    groupInActiveSelection(group) {
+        if (this.activeSection &&
+            this.activeSection.form &&
+            this.activeSection.form.groups) {
+            if (this.activeSection.form.groups.find((/**
+             * @param {?} g
+             * @return {?}
+             */
+            g => g.id === group.id))) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 MainComponent.decorators = [
     { type: Component, args: [{
                 // tslint:disable-next-line:component-selector
                 selector: 'main',
-                template: "<form (ngSubmit)=\"onSubmit()\" [formGroup]=\"form\">\r\n  <div class=\"groups\">\r\n    <group\r\n      *ngFor=\"let group of activeSection?.form?.groups\"\r\n      [group]=\"group\"\r\n      [preferences]=\"prefs\"\r\n      [form]=\"activeSectionForm\"\r\n      [validationOn]=\"options.validationOn\"\r\n    ></group>\r\n  </div>\r\n  <div class=\"bottom-bar\">\r\n    <span *ngIf=\"form.valid\">VALID</span>\r\n    <span *ngIf=\"form.invalid\">INVALID</span>\r\n    <span *ngIf=\"form.pending\">PENDING</span>\r\n    <button type=\"submit\" class=\"btn btn-primary\">\r\n      <!-- [disabled]=\"!form.valid\" -->\r\n      Save\r\n    </button>\r\n  </div>\r\n</form>\r\n",
-                styles: [".groups{height:calc(100vh - 40px);padding:10px;overflow:auto}.bottom-bar{padding:5px;text-align:right;background:#dcdcdc;border-top:1px solid #cecece}.bottom-bar button{background:rgba(2,95,43,.72);border:none;padding:5px 10px;font-size:14px;color:#fff;transition:width 2s;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica,sans-serif}.bottom-bar button:hover{background:#000;border:none}"]
+                template: "<form (ngSubmit)=\"onSubmit($event)\" [formGroup]=\"form\">\r\n  <div class=\"groups\">\r\n    <ng-container *ngFor=\"let section of options?.sections\">\r\n      <group\r\n        *ngFor=\"let group of section.form?.groups\"\r\n        [group]=\"group\"\r\n        [preferences]=\"sectionPreferences(section)\"\r\n        [form]=\"sectionForm(section)\"\r\n        [validationOn]=\"options.validationOn\"\r\n        [ngClass]=\"{\r\n          'visible-group': groupInActiveSelection(group)\r\n        }\"\r\n      ></group>\r\n    </ng-container>\r\n  </div>\r\n  <div class=\"bottom-bar\">\r\n    <flash-message [message]=\"flashMessage\"></flash-message>\r\n    <button type=\"submit\" class=\"btn btn-primary\">\r\n      Save\r\n    </button>\r\n  </div>\r\n</form>\r\n",
+                styles: [".groups{height:calc(100vh - 40px);padding:10px;overflow:auto}group{display:none}.visible-group{display:block}.bottom-bar{padding:5px;text-align:right;background:#dcdcdc;border-top:1px solid #cecece}.bottom-bar button{background:rgba(2,95,43,.72);border:none;padding:5px 10px;font-size:14px;color:#fff;outline:0;transition:width 2s;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica,sans-serif}.bottom-bar button:hover{background:#000;border:none}"]
             }] }
 ];
 /** @nocollapse */
 MainComponent.ctorParameters = () => [
-    { type: FormBuilder }
+    { type: ElectronService }
 ];
 MainComponent.propDecorators = {
     activeSection: [{ type: Input }],
@@ -1025,6 +1195,7 @@ ElectronNgPreferencesModule.decorators = [
                     MainComponent,
                     SidebarComponent,
                     GroupComponent,
+                    FlashMessageComponent,
                     CheckBoxComponent,
                     DirectoryComponent,
                     TextBoxComponent,
@@ -1058,6 +1229,6 @@ ElectronNgPreferencesModule.ctorParameters = () => [];
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { ElectronNgPreferencesComponent, ElectronNgPreferencesModule, BooleanComponent as ɵl, BtnFieldComponent as ɵm, CheckBoxComponent as ɵf, DirectoryComponent as ɵg, DropDownComponent as ɵj, MessageComponent as ɵk, RadioComponent as ɵi, TextBoxComponent as ɵh, GroupComponent as ɵd, MainComponent as ɵb, ElectronService as ɵa, ValidationService as ɵe, SidebarComponent as ɵc };
+export { ElectronNgPreferencesComponent, ElectronNgPreferencesModule, FlashMessageComponent as ɵf, BooleanComponent as ɵm, BtnFieldComponent as ɵn, CheckBoxComponent as ɵg, DirectoryComponent as ɵh, DropDownComponent as ɵk, MessageComponent as ɵl, RadioComponent as ɵj, TextBoxComponent as ɵi, GroupComponent as ɵd, MainComponent as ɵb, ElectronService as ɵa, ValidationService as ɵe, SidebarComponent as ɵc };
 
 //# sourceMappingURL=electron-ng-preferences.js.map

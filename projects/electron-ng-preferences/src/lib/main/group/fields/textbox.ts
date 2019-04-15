@@ -14,6 +14,8 @@ import { FormGroup } from '@angular/forms';
           [id]="field.name"
           [name]="field.name"
           [formControlName]="field.name"
+          [readonly]="field.readonly"
+          [ngClass]="{ 'field-readonly': field.readonly }"
         />
         <span class="error-message" *ngIf="control.errors?.required"
           >Please fill out this field.</span

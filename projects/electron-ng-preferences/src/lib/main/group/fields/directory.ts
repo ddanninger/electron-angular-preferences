@@ -16,9 +16,14 @@ import { ElectronService } from '../../../services/electron.service';
         <span class="error-message" *ngIf="control.errors?.required"
           >Please fill out this field.</span
         >
-        <span class="error-message" *ngIf="control.errors?.dynamicError && field.errorMessage">{{
-          field.errorMessage
-        }}</span>
+        <span
+          class="error-message"
+          *ngIf="control.errors?.dynamicError && field.errorMessage"
+          >{{ field.errorMessage }}</span
+        >
+        <span class="waiting-message" *ngIf="control.status === 'PENDING'">
+          Validating...
+        </span>
         <span class="help" *ngIf="field.help">{{ field.help }}</span>
         <input [formControlName]="field.name" type="hidden" />
       </div>

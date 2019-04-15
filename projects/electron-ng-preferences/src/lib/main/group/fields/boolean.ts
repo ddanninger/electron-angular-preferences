@@ -8,7 +8,7 @@ import { isBoolean } from 'util';
   template: `
     <div class="field field-boolean">
       <div class="field-label">{{ field.label }}</div>
-      <ui-switch (change)="onChange($event)"></ui-switch>
+      <ui-switch [checked]="value" (change)="onChange($event)"></ui-switch>
       <span class="error-message" *ngIf="control.errors?.required"
         >Please fill out this field.</span
       ><span class="waiting-message" *ngIf="control.status === 'PENDING'">

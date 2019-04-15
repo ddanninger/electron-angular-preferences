@@ -10,7 +10,7 @@
 
 ## Inspiration & Base code
 
-Thank you to -> [Electron Preferences](https://github.com/tkambler/electron-preferences) for the inspiration
+Thank you to -> [Electron Preferences](https://github.com/tkambler/electron-preferences) for the inspiration & base structure
 
 ## Introduction
 
@@ -29,7 +29,7 @@ Using the API, developers can:
 To see the library in action, clone this repository and see the demo application that is included within the `example` folder:
 
     $ git clone https://github.com/ddanninger/electron-angular-preferences.git
-    $ cd electron-preferences
+    $ cd electron-angular-preferences
     $ npm i --no-optional
     $ npm run build
     $ npm run example
@@ -37,6 +37,12 @@ To see the library in action, clone this repository and see the demo application
 ## Getting Started
 
 ### Initializing the Preferences Service
+
+Install with
+
+```
+npm install electron-angular-preferences
+```
 
 Within your application's main process, create a new instance of the `ElectronPreferences` class, as shown below. [preferences.js](https://github.com/ddanninger/electron-angular-preferences/blob/master/example/preferences.js)
 
@@ -303,6 +309,11 @@ The library includes built-in support for the following field types:
 - Switch ( boolean )
 - Button ( button )
 
+
 ## Icons
 
 [Font Awesome 5](https://fontawesome.com/icons?d=&s=solid&m=free) Free, Solid icons can be used
+
+## Known issues
+
+- Validators and Action buttons still need some testing and improvements

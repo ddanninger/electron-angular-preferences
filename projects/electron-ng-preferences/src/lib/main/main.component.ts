@@ -1,6 +1,11 @@
+import {
+  FlashMessage,
+  FlashMessageLevel
+} from './flash-message/flash-message.component';
+import { ElectronService } from './../services/electron.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PreferenceOptions, Section } from '../types/preference.types';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,6 +24,7 @@ export class MainComponent implements OnInit {
   defaults: any;
 
   form: FormGroup;
+  flashMessage: FlashMessage;
 
   get prefs() {
     return this.preferences[this.activeSection.name];
@@ -28,11 +34,11 @@ export class MainComponent implements OnInit {
     return this.form.get(this.activeSection.name);
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private electronService: ElectronService) {}
 
   ngOnInit() {
     console.log(
-      'main.component',
+      'main.component->',
       this.preferences,
       this.options,
       this.defaults,
@@ -53,22 +59,64 @@ export class MainComponent implements OnInit {
   }
 
   save() {
-    console.log('save', this.form, this.form.value);
+    console.log('save', this.form, this.form.valid, this.form.value);
     if (this.form.valid) {
       console.log('form is valid');
-
-      const values = this.form.value;
-      /*values.map(v => {
-      return v;
-    });*/
+      const preferences = this.form.value;
+      console.log('values', preferences);
+      this.showSavedMessage();
+      this.electronService.ipcRenderer.send('setPreferences', preferences);
     } else if (this.form.pending) {
       this.form.statusChanges.subscribe(status => {
         console.log('statusChanges form was pending and now is', status);
+        if (status === 'VALID') {
+          this.save();
+        }
       });
+    } else {
+      this.showErrorMessage();
     }
   }
 
-  onSubmit() {
+  showSavedMessage() {
+    this.flashMessage = {
+      message: 'Successfully saved.',
+      level: FlashMessageLevel.SUCCESS
+    };
+  }
+
+  showErrorMessage() {
+    this.flashMessage = {
+      message: 'Form is not valid.',
+      level: FlashMessageLevel.ERROR
+    };
+  }
+
+  onSubmit(e) {
     console.log('onsubmit', this.form.valid, this.form, this.form.value);
+    this.save();
+    e.preventDefault();
+    return false;
+  }
+
+  sectionForm(section) {
+    return this.form.get(section.name);
+  }
+
+  sectionPreferences(section) {
+    return this.preferences[section.name];
+  }
+
+  groupInActiveSelection(group) {
+    if (
+      this.activeSection &&
+      this.activeSection.form &&
+      this.activeSection.form.groups
+    ) {
+      if (this.activeSection.form.groups.find(g => g.id === group.id)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

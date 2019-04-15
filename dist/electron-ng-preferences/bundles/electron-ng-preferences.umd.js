@@ -124,6 +124,67 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
+    var FlashMessageComponent = /** @class */ (function () {
+        function FlashMessageComponent() {
+            this.showMessage = false;
+        }
+        /**
+         * @param {?} changes
+         * @return {?}
+         */
+        FlashMessageComponent.prototype.ngOnChanges = /**
+         * @param {?} changes
+         * @return {?}
+         */
+            function (changes) {
+                this.manageMessage(changes.message.currentValue);
+            };
+        /**
+         * @param {?} message
+         * @return {?}
+         */
+        FlashMessageComponent.prototype.manageMessage = /**
+         * @param {?} message
+         * @return {?}
+         */
+            function (message) {
+                var _this = this;
+                if (message && message.message && message.message.length > 0) {
+                    this.message = message;
+                    this.showMessage = true;
+                    setTimeout(( /**
+                     * @return {?}
+                     */function () {
+                        _this.showMessage = false;
+                        _this.message = null;
+                    }), 8000);
+                }
+            };
+        FlashMessageComponent.decorators = [
+            { type: i0.Component, args: [{
+                        // tslint:disable-next-line:component-selector
+                        selector: 'flash-message',
+                        template: "\n    <div\n      class=\"flashMessage animateCss\"\n      [ngClass]=\"{\n        showFlashmessage: showMessage,\n        flashSuccess: message?.level === 'success',\n        flashError: message?.level === 'error'\n      }\"\n      [hidden]=\"!showMessage\"\n    >\n      <span>{{ message?.message }}</span>\n    </div>\n  ",
+                        styles: [".flashMessage{text-align:center;border:none;padding:5px 10px;color:#fff;font-size:14px;display:inline;margin-right:15px}.flashMessage.flashSuccess{background:#025f2b}.flashMessage.flashError{background:#ad0909}.animateCss{transition:opacity 1s ease-in-out,margin-left .5s ease-in-out;opacity:0}.showFlashmessage{opacity:2}"]
+                    }] }
+        ];
+        /** @nocollapse */
+        FlashMessageComponent.ctorParameters = function () { return []; };
+        FlashMessageComponent.propDecorators = {
+            message: [{ type: i0.Input }]
+        };
+        return FlashMessageComponent;
+    }());
+    /** @enum {string} */
+    var FlashMessageLevel = {
+        SUCCESS: 'success',
+        ERROR: 'error',
+    };
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
     // import rxIpc from 'rx-ipc-electron-six/lib/renderer'; // not working @todo find a better way
     var ValidationService = /** @class */ (function () {
         function ValidationService(electronService) {
@@ -285,7 +346,7 @@
             { type: i0.Component, args: [{
                         // tslint:disable-next-line:component-selector
                         selector: 'boolean',
-                        template: "\n    <div class=\"field field-boolean\">\n      <div class=\"field-label\">{{ field.label }}</div>\n      <ui-switch (change)=\"onChange($event)\"></ui-switch>\n      <span class=\"error-message\" *ngIf=\"control.errors?.required\"\n        >Please fill out this field.</span\n      ><span class=\"waiting-message\" *ngIf=\"control.status === 'PENDING'\">\n        Validating...\n      </span>\n      <span\n        class=\"error-message\"\n        *ngIf=\"control.errors?.dynamicError && field.errorMessage\"\n        >{{ field.errorMessage }}</span\n      >\n      <span class=\"help\" *ngIf=\"field.help\">{{ field.help }}</span>\n    </div>\n  "
+                        template: "\n    <div class=\"field field-boolean\">\n      <div class=\"field-label\">{{ field.label }}</div>\n      <ui-switch [checked]=\"value\" (change)=\"onChange($event)\"></ui-switch>\n      <span class=\"error-message\" *ngIf=\"control.errors?.required\"\n        >Please fill out this field.</span\n      ><span class=\"waiting-message\" *ngIf=\"control.status === 'PENDING'\">\n        Validating...\n      </span>\n      <span\n        class=\"error-message\"\n        *ngIf=\"control.errors?.dynamicError && field.errorMessage\"\n        >{{ field.errorMessage }}</span\n      >\n      <span class=\"help\" *ngIf=\"field.help\">{{ field.help }}</span>\n    </div>\n  "
                     }] }
         ];
         /** @nocollapse */
@@ -451,7 +512,7 @@
             { type: i0.Component, args: [{
                         // tslint:disable-next-line:component-selector
                         selector: 'textbox',
-                        template: "\n    <div [formGroup]=\"form\">\n      <div class=\"field field-text\">\n        <div class=\"field-label\">{{ field.label }}</div>\n        <input\n          [attr.type]=\"field.type\"\n          class=\"form-control\"\n          [id]=\"field.name\"\n          [name]=\"field.name\"\n          [formControlName]=\"field.name\"\n        />\n        <span class=\"error-message\" *ngIf=\"control.errors?.required\"\n          >Please fill out this field.</span\n        >\n        <span class=\"waiting-message\" *ngIf=\"control.status === 'PENDING'\">\n          Validating...\n        </span>\n        <span\n          class=\"error-message\"\n          *ngIf=\"control.errors?.dynamicError && field.errorMessage\"\n          >{{ field.errorMessage }}</span\n        >\n        <span class=\"help\" *ngIf=\"field.help\">{{ field.help }}</span>\n      </div>\n    </div>\n  "
+                        template: "\n    <div [formGroup]=\"form\">\n      <div class=\"field field-text\">\n        <div class=\"field-label\">{{ field.label }}</div>\n        <input\n          [attr.type]=\"field.type\"\n          class=\"form-control\"\n          [id]=\"field.name\"\n          [name]=\"field.name\"\n          [formControlName]=\"field.name\"\n          [readonly]=\"field.readonly\"\n          [ngClass]=\"{ 'field-readonly': field.readonly }\"\n        />\n        <span class=\"error-message\" *ngIf=\"control.errors?.required\"\n          >Please fill out this field.</span\n        >\n        <span class=\"waiting-message\" *ngIf=\"control.status === 'PENDING'\">\n          Validating...\n        </span>\n        <span\n          class=\"error-message\"\n          *ngIf=\"control.errors?.dynamicError && field.errorMessage\"\n          >{{ field.errorMessage }}</span\n        >\n        <span class=\"help\" *ngIf=\"field.help\">{{ field.help }}</span>\n      </div>\n    </div>\n  "
                     }] }
         ];
         /** @nocollapse */
@@ -529,7 +590,7 @@
             { type: i0.Component, args: [{
                         // tslint:disable-next-line:component-selector
                         selector: 'directory',
-                        template: "\n    <div [formGroup]=\"form\">\n      <div class=\"field field-directory\">\n        <div class=\"field-label\">{{ field.label }}</div>\n        <div class=\"value\">Folder: {{ control?.value }}</div>\n        <div class=\"btn\" (click)=\"chooseFolder()\">\n          {{ btnLabel }}\n        </div>\n        <span class=\"error-message\" *ngIf=\"control.errors?.required\"\n          >Please fill out this field.</span\n        >\n        <span class=\"error-message\" *ngIf=\"control.errors?.dynamicError && field.errorMessage\">{{\n          field.errorMessage\n        }}</span>\n        <span class=\"help\" *ngIf=\"field.help\">{{ field.help }}</span>\n        <input [formControlName]=\"field.name\" type=\"hidden\" />\n      </div>\n    </div>\n  "
+                        template: "\n    <div [formGroup]=\"form\">\n      <div class=\"field field-directory\">\n        <div class=\"field-label\">{{ field.label }}</div>\n        <div class=\"value\">Folder: {{ control?.value }}</div>\n        <div class=\"btn\" (click)=\"chooseFolder()\">\n          {{ btnLabel }}\n        </div>\n        <span class=\"error-message\" *ngIf=\"control.errors?.required\"\n          >Please fill out this field.</span\n        >\n        <span\n          class=\"error-message\"\n          *ngIf=\"control.errors?.dynamicError && field.errorMessage\"\n          >{{ field.errorMessage }}</span\n        >\n        <span class=\"waiting-message\" *ngIf=\"control.status === 'PENDING'\">\n          Validating...\n        </span>\n        <span class=\"help\" *ngIf=\"field.help\">{{ field.help }}</span>\n        <input [formControlName]=\"field.name\" type=\"hidden\" />\n      </div>\n    </div>\n  "
                     }] }
         ];
         /** @nocollapse */
@@ -577,6 +638,12 @@
              */ function () {
                 return this.form.controls[this.field.name].value;
             },
+            set: /**
+             * @param {?} val
+             * @return {?}
+             */ function (val) {
+                this.form.controls[this.field.name].setValue(val);
+            },
             enumerable: true,
             configurable: true
         });
@@ -589,11 +656,42 @@
             enumerable: true,
             configurable: true
         });
+        /**
+         * @param {?} checked
+         * @param {?} opt
+         * @return {?}
+         */
+        CheckBoxComponent.prototype.onChecklistChange = /**
+         * @param {?} checked
+         * @param {?} opt
+         * @return {?}
+         */
+            function (checked, opt) {
+                opt.checked = checked;
+                this.value = this.flattenValues(this.field.options);
+            };
+        /**
+         * @param {?} checkboxes
+         * @return {?}
+         */
+        CheckBoxComponent.prototype.flattenValues = /**
+         * @param {?} checkboxes
+         * @return {?}
+         */
+            function (checkboxes) {
+                return checkboxes.filter(( /**
+                 * @param {?} c
+                 * @return {?}
+                 */function (c) { return c.checked; })).map(( /**
+                 * @param {?} c
+                 * @return {?}
+                 */function (c) { return c.value; }));
+            };
         CheckBoxComponent.decorators = [
             { type: i0.Component, args: [{
                         // tslint:disable-next-line:component-selector
                         selector: 'checkbox',
-                        template: "\n    <div [formGroup]=\"form\">\n      <div [formGroupName]=\"field.name\" class=\"field field-checkbox\">\n        <div class=\"field-label\">{{ field.label }}</div>\n        <div class=\"checkbox-option\" *ngFor=\"let opt of field.options\">\n          <input\n            type=\"checkbox\"\n            id=\"{{ field.name }}\"\n            [formControlName]=\"opt.label\"\n          />\n          <label>{{ opt.label }}</label>\n        </div>\n        <span class=\"error-message\" *ngIf=\"control.errors?.required\"\n          >Please fill out this field.</span\n        ><span class=\"waiting-message\" *ngIf=\"control.status === 'PENDING'\">\n        Validating...\n      </span>\n        <span class=\"error-message\" *ngIf=\"control.errors?.dynamicError && field.errorMessage\">{{\n          field.errorMessage\n        }}</span>\n        <span class=\"help\" *ngIf=\"field.help\">{{ field.help }}</span>\n      </div>\n    </div>\n  "
+                        template: "\n    <div [formGroup]=\"form\">\n      <div [formGroupName]=\"field.name\" class=\"field field-checkbox\">\n        <div class=\"field-label\">{{ field.label }}</div>\n        <div class=\"checkbox-option\" *ngFor=\"let opt of field.options\">\n          <input\n            type=\"checkbox\"\n            id=\"{{ field.name }}\"\n            [checked]=\"opt.checked\"\n            [value]=\"opt.value\"\n            (change)=\"onChecklistChange($event.target.checked, opt)\"\n          />\n          <label>{{ opt.label }}</label>\n        </div>\n        <span class=\"error-message\" *ngIf=\"control.errors?.required\"\n          >Please fill out this field.</span\n        ><span class=\"waiting-message\" *ngIf=\"control.status === 'PENDING'\">\n          Validating...\n        </span>\n        <span\n          class=\"error-message\"\n          *ngIf=\"control.errors?.dynamicError && field.errorMessage\"\n          >{{ field.errorMessage }}</span\n        >\n        <span class=\"help\" *ngIf=\"field.help\">{{ field.help }}</span>\n      </div>\n    </div>\n  "
                     }] }
         ];
         CheckBoxComponent.propDecorators = {
@@ -754,74 +852,67 @@
          * @return {?}
          */
             function () {
-                // const validatorOptions: any = {};
-                // if (this.validationOn) {
-                //   validatorOptions.updateOn = this.validationOn;
-                // }
-                var e_1, _a, e_2, _b;
+                var _this = this;
+                var e_1, _a;
                 console.log('group.component', this.group);
                 if (this.group && this.group.fields) {
                     /** @type {?} */
                     var fieldsCtrls = {};
+                    var _loop_1 = function (f) {
+                        if (f.type === 'message') {
+                            return { value: void 0 };
+                        }
+                        else {
+                            // if (f.type !== 'checkbox') {
+                            /** @type {?} */
+                            var validators = [];
+                            /** @type {?} */
+                            var asyncValidators = [];
+                            if (f.required) {
+                                validators.push(forms.Validators.required);
+                            }
+                            if (f.validator) {
+                                /** @type {?} */
+                                var lastLetter = f.validator.substr(-1);
+                                if (lastLetter === '$') {
+                                    console.log('validator is observable', f.validator);
+                                    asyncValidators.push(dynamicAsyncValidatorFn(this_1.validationService, this_1.cdRef, f.validator));
+                                }
+                                else {
+                                    console.log('validator is normal', f.validator);
+                                    validators.push(dynamicValidatorFn(this_1.electronService, this_1.cdRef, f.validator));
+                                }
+                            }
+                            if (f.type === 'checkbox' && f.options && this_1.preferences[f.name]) {
+                                f.options.map(( /**
+                                 * @param {?} o
+                                 * @return {?}
+                                 */function (o) { return (o.checked = _this.preferences[f.name].includes(o.value)); }));
+                            }
+                            if (f.fixedValue) {
+                                this_1.preferences[f.name] = f.fixedValue;
+                            }
+                            fieldsCtrls[f.name] = new forms.FormControl(this_1.preferences[f.name] || '', validators, asyncValidators);
+                        } /* else {
+                          const opts = {};
+                          for (const opt of f.options) {
+                            opts[opt.label] = new FormControl(opt.value);
+                          }
+                          const formGroup = new FormGroup(opts);
+                          if (this.preferences[f.name]) {
+                            formGroup.setValue(this.preferences[f.name]);
+                          }
+                          fieldsCtrls[f.name] = formGroup;
+                        }*/
+                        this_1.form.addControl(f.name, fieldsCtrls[f.name]);
+                    };
+                    var this_1 = this;
                     try {
-                        for (var _c = __values(this.group.fields), _d = _c.next(); !_d.done; _d = _c.next()) {
-                            var f = _d.value;
-                            if (f.type === 'message') {
-                                // do nothing
-                                return;
-                            }
-                            else if (f.type !== 'checkbox') {
-                                /** @type {?} */
-                                var validators = [];
-                                /** @type {?} */
-                                var asyncValidators = [];
-                                if (f.required) {
-                                    validators.push(forms.Validators.required);
-                                }
-                                if (f.validator) {
-                                    /** @type {?} */
-                                    var lastLetter = f.validator.substr(-1);
-                                    if (lastLetter === '$') {
-                                        console.log('validator is observable', f.validator);
-                                        asyncValidators.push(dynamicAsyncValidatorFn(this.validationService, this.cdRef, f.validator));
-                                    }
-                                    else {
-                                        console.log('validator is normal', f.validator);
-                                        validators.push(dynamicValidatorFn(this.electronService, this.cdRef, f.validator));
-                                    }
-                                }
-                                fieldsCtrls[f.name] = new forms.FormControl(this.preferences[f.name] || '', validators, asyncValidators);
-                            }
-                            else {
-                                /** @type {?} */
-                                var opts = {};
-                                try {
-                                    for (var _e = __values(f.options), _f = _e.next(); !_f.done; _f = _e.next()) {
-                                        var opt = _f.value;
-                                        opts[opt.label] = new forms.FormControl(opt.value);
-                                    }
-                                }
-                                catch (e_2_1) {
-                                    e_2 = { error: e_2_1 };
-                                }
-                                finally {
-                                    try {
-                                        if (_f && !_f.done && (_b = _e.return))
-                                            _b.call(_e);
-                                    }
-                                    finally {
-                                        if (e_2)
-                                            throw e_2.error;
-                                    }
-                                }
-                                /** @type {?} */
-                                var formGroup = new forms.FormGroup(opts);
-                                if (this.preferences[f.name]) {
-                                    formGroup.setValue(this.preferences[f.name]);
-                                }
-                                fieldsCtrls[f.name] = formGroup;
-                            }
-                            this.form.addControl(f.name, fieldsCtrls[f.name]);
+                        for (var _b = __values(this.group.fields), _c = _b.next(); !_c.done; _c = _b.next()) {
+                            var f = _c.value;
+                            var state_1 = _loop_1(f);
+                            if (typeof state_1 === "object")
+                                return state_1.value;
                         }
                     }
                     catch (e_1_1) {
@@ -829,8 +920,8 @@
                     }
                     finally {
                         try {
-                            if (_d && !_d.done && (_a = _c.return))
-                                _a.call(_c);
+                            if (_c && !_c.done && (_a = _b.return))
+                                _a.call(_b);
                         }
                         finally {
                             if (e_1)
@@ -848,7 +939,7 @@
                         selector: 'group',
                         template: "<div class=\"group-label\" *ngIf=\"group.label\">{{ group.label }}</div>\n<div *ngFor=\"let field of fields\">\n  <ng-container [ngSwitch]=\"field.type\">\n    <textbox *ngSwitchCase=\"'text'\" [field]=\"field\" [form]=\"form\"></textbox>\n    <dropdown\n      *ngSwitchCase=\"'dropdown'\"\n      [field]=\"field\"\n      [form]=\"form\"\n    ></dropdown>\n    <checkbox\n      *ngSwitchCase=\"'checkbox'\"\n      [field]=\"field\"\n      [form]=\"form\"\n    ></checkbox>\n    <radio *ngSwitchCase=\"'radio'\" [field]=\"field\" [form]=\"form\"></radio>\n    <directory\n      *ngSwitchCase=\"'directory'\"\n      [field]=\"field\"\n      [form]=\"form\"\n    ></directory>\n    <message *ngSwitchCase=\"'message'\" [field]=\"field\" [form]=\"form\"></message>\n    <boolean *ngSwitchCase=\"'boolean'\" [field]=\"field\" [form]=\"form\"></boolean>\n    <btnfield *ngSwitchCase=\"'button'\" [field]=\"field\" [form]=\"form\"></btnfield>\n  </ng-container>\n</div>\n",
                         changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                        styles: ["::ng-deep .group-label{font-size:16px;font-weight:700;text-transform:uppercase;border-bottom:1px dashed #000;margin-bottom:10px}::ng-deep .field{margin-bottom:20px}::ng-deep .field:last-child{margin-bottom:0}::ng-deep .field .field-label{border-bottom:1px dashed #ccc;margin-bottom:10px}::ng-deep .field .help{display:block;padding-top:5px;padding-bottom:5px;font-size:12px}::ng-deep .field .btn{display:inline-block;background-color:#d9dadb;color:#000;padding:5px;border-radius:0;margin-top:5px;border:1px solid rgba(0,0,0,.25)}::ng-deep .field .btn:hover{cursor:pointer;background-color:#a7a8a8}::ng-deep .field-text input{width:100%;font-size:14px;padding:4px}::ng-deep .field-dropdown select{width:100%;font-size:14px;padding:4px}::ng-deep .field-button .messsage{display:block;padding-top:5px;padding-bottom:5px;font-size:12px}::ng-deep .field-message .field-heading{border-bottom:1px dashed #ccc;margin-bottom:10px}::ng-deep .error-message{display:block;padding-top:5px;padding-bottom:5px;font-size:12px;color:#8c0707}"]
+                        styles: ["::ng-deep .group-label{font-size:16px;font-weight:700;text-transform:uppercase;border-bottom:1px dashed #000;margin-bottom:10px}::ng-deep .field{margin-bottom:20px}::ng-deep .field:last-child{margin-bottom:0}::ng-deep .field .field-label{border-bottom:1px dashed #ccc;margin-bottom:10px}::ng-deep .field .help{display:block;padding-top:5px;padding-bottom:5px;font-size:12px}::ng-deep .field .btn{display:inline-block;background-color:#d9dadb;color:#000;padding:5px;border-radius:0;margin-top:5px;border:1px solid rgba(0,0,0,.25)}::ng-deep .field .btn:hover{cursor:pointer;background-color:#a7a8a8}::ng-deep .field-text input{width:100%;font-size:14px;padding:4px;background:#fff;border:1px solid #dadada}::ng-deep .field-readonly{background:#d9dadb!important;border:1px solid #dadada!important}::ng-deep .field-dropdown select{width:100%;font-size:14px;padding:4px;background:#fff;border:1px solid #dadada}::ng-deep .field-button .message{display:block;padding-top:5px;padding-bottom:5px;font-size:12px}::ng-deep .field-message .field-heading{border-bottom:1px dashed #ccc;margin-bottom:10px}::ng-deep .error-message{display:block;padding-top:5px;padding-bottom:5px;font-size:12px;color:#8c0707}"]
                     }] }
         ];
         /** @nocollapse */
@@ -937,8 +1028,8 @@
      * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     var MainComponent = /** @class */ (function () {
-        function MainComponent(fb) {
-            this.fb = fb;
+        function MainComponent(electronService) {
+            this.electronService = electronService;
         }
         Object.defineProperty(MainComponent.prototype, "prefs", {
             get: /**
@@ -965,7 +1056,7 @@
          * @return {?}
          */
             function () {
-                console.log('main.component', this.preferences, this.options, this.defaults, this.activeSection);
+                console.log('main.component->', this.preferences, this.options, this.defaults, this.activeSection);
                 /** @type {?} */
                 var validatorOptions = {};
                 if (this.options.validationOn) {
@@ -989,14 +1080,15 @@
          * @return {?}
          */
             function () {
-                console.log('save', this.form, this.form.value);
+                var _this = this;
+                console.log('save', this.form, this.form.valid, this.form.value);
                 if (this.form.valid) {
                     console.log('form is valid');
                     /** @type {?} */
-                    var values = this.form.value;
-                    /*values.map(v => {
-                    return v;
-                  });*/
+                    var preferences = this.form.value;
+                    console.log('values', preferences);
+                    this.showSavedMessage();
+                    this.electronService.ipcRenderer.send('setPreferences', preferences);
                 }
                 else if (this.form.pending) {
                     this.form.statusChanges.subscribe(( /**
@@ -1004,30 +1096,108 @@
                      * @return {?}
                      */function (status) {
                         console.log('statusChanges form was pending and now is', status);
+                        if (status === 'VALID') {
+                            _this.save();
+                        }
                     }));
+                }
+                else {
+                    this.showErrorMessage();
                 }
             };
         /**
          * @return {?}
          */
-        MainComponent.prototype.onSubmit = /**
+        MainComponent.prototype.showSavedMessage = /**
          * @return {?}
          */
             function () {
+                this.flashMessage = {
+                    message: 'Successfully saved.',
+                    level: FlashMessageLevel.SUCCESS
+                };
+            };
+        /**
+         * @return {?}
+         */
+        MainComponent.prototype.showErrorMessage = /**
+         * @return {?}
+         */
+            function () {
+                this.flashMessage = {
+                    message: 'Form is not valid.',
+                    level: FlashMessageLevel.ERROR
+                };
+            };
+        /**
+         * @param {?} e
+         * @return {?}
+         */
+        MainComponent.prototype.onSubmit = /**
+         * @param {?} e
+         * @return {?}
+         */
+            function (e) {
                 console.log('onsubmit', this.form.valid, this.form, this.form.value);
+                this.save();
+                e.preventDefault();
+                return false;
+            };
+        /**
+         * @param {?} section
+         * @return {?}
+         */
+        MainComponent.prototype.sectionForm = /**
+         * @param {?} section
+         * @return {?}
+         */
+            function (section) {
+                return this.form.get(section.name);
+            };
+        /**
+         * @param {?} section
+         * @return {?}
+         */
+        MainComponent.prototype.sectionPreferences = /**
+         * @param {?} section
+         * @return {?}
+         */
+            function (section) {
+                return this.preferences[section.name];
+            };
+        /**
+         * @param {?} group
+         * @return {?}
+         */
+        MainComponent.prototype.groupInActiveSelection = /**
+         * @param {?} group
+         * @return {?}
+         */
+            function (group) {
+                if (this.activeSection &&
+                    this.activeSection.form &&
+                    this.activeSection.form.groups) {
+                    if (this.activeSection.form.groups.find(( /**
+                     * @param {?} g
+                     * @return {?}
+                     */function (g) { return g.id === group.id; }))) {
+                        return true;
+                    }
+                }
+                return false;
             };
         MainComponent.decorators = [
             { type: i0.Component, args: [{
                         // tslint:disable-next-line:component-selector
                         selector: 'main',
-                        template: "<form (ngSubmit)=\"onSubmit()\" [formGroup]=\"form\">\r\n  <div class=\"groups\">\r\n    <group\r\n      *ngFor=\"let group of activeSection?.form?.groups\"\r\n      [group]=\"group\"\r\n      [preferences]=\"prefs\"\r\n      [form]=\"activeSectionForm\"\r\n      [validationOn]=\"options.validationOn\"\r\n    ></group>\r\n  </div>\r\n  <div class=\"bottom-bar\">\r\n    <span *ngIf=\"form.valid\">VALID</span>\r\n    <span *ngIf=\"form.invalid\">INVALID</span>\r\n    <span *ngIf=\"form.pending\">PENDING</span>\r\n    <button type=\"submit\" class=\"btn btn-primary\">\r\n      <!-- [disabled]=\"!form.valid\" -->\r\n      Save\r\n    </button>\r\n  </div>\r\n</form>\r\n",
-                        styles: [".groups{height:calc(100vh - 40px);padding:10px;overflow:auto}.bottom-bar{padding:5px;text-align:right;background:#dcdcdc;border-top:1px solid #cecece}.bottom-bar button{background:rgba(2,95,43,.72);border:none;padding:5px 10px;font-size:14px;color:#fff;transition:width 2s;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica,sans-serif}.bottom-bar button:hover{background:#000;border:none}"]
+                        template: "<form (ngSubmit)=\"onSubmit($event)\" [formGroup]=\"form\">\r\n  <div class=\"groups\">\r\n    <ng-container *ngFor=\"let section of options?.sections\">\r\n      <group\r\n        *ngFor=\"let group of section.form?.groups\"\r\n        [group]=\"group\"\r\n        [preferences]=\"sectionPreferences(section)\"\r\n        [form]=\"sectionForm(section)\"\r\n        [validationOn]=\"options.validationOn\"\r\n        [ngClass]=\"{\r\n          'visible-group': groupInActiveSelection(group)\r\n        }\"\r\n      ></group>\r\n    </ng-container>\r\n  </div>\r\n  <div class=\"bottom-bar\">\r\n    <flash-message [message]=\"flashMessage\"></flash-message>\r\n    <button type=\"submit\" class=\"btn btn-primary\">\r\n      Save\r\n    </button>\r\n  </div>\r\n</form>\r\n",
+                        styles: [".groups{height:calc(100vh - 40px);padding:10px;overflow:auto}group{display:none}.visible-group{display:block}.bottom-bar{padding:5px;text-align:right;background:#dcdcdc;border-top:1px solid #cecece}.bottom-bar button{background:rgba(2,95,43,.72);border:none;padding:5px 10px;font-size:14px;color:#fff;outline:0;transition:width 2s;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica,sans-serif}.bottom-bar button:hover{background:#000;border:none}"]
                     }] }
         ];
         /** @nocollapse */
         MainComponent.ctorParameters = function () {
             return [
-                { type: forms.FormBuilder }
+                { type: ElectronService }
             ];
         };
         MainComponent.propDecorators = {
@@ -1053,6 +1223,7 @@
                             MainComponent,
                             SidebarComponent,
                             GroupComponent,
+                            FlashMessageComponent,
                             CheckBoxComponent,
                             DirectoryComponent,
                             TextBoxComponent,
@@ -1090,14 +1261,15 @@
 
     exports.ElectronNgPreferencesComponent = ElectronNgPreferencesComponent;
     exports.ElectronNgPreferencesModule = ElectronNgPreferencesModule;
-    exports.ɵl = BooleanComponent;
-    exports.ɵm = BtnFieldComponent;
-    exports.ɵf = CheckBoxComponent;
-    exports.ɵg = DirectoryComponent;
-    exports.ɵj = DropDownComponent;
-    exports.ɵk = MessageComponent;
-    exports.ɵi = RadioComponent;
-    exports.ɵh = TextBoxComponent;
+    exports.ɵf = FlashMessageComponent;
+    exports.ɵm = BooleanComponent;
+    exports.ɵn = BtnFieldComponent;
+    exports.ɵg = CheckBoxComponent;
+    exports.ɵh = DirectoryComponent;
+    exports.ɵk = DropDownComponent;
+    exports.ɵl = MessageComponent;
+    exports.ɵj = RadioComponent;
+    exports.ɵi = TextBoxComponent;
     exports.ɵd = GroupComponent;
     exports.ɵb = MainComponent;
     exports.ɵa = ElectronService;

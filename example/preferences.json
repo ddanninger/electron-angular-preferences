@@ -1,9 +1,12 @@
 {
+    "huxdiewurscht": {
+        "folder": "waldns"
+    },
     "notes": {
-        "folder": "C:\\Users\\ddann\\Notes"
+        "folder": "C:\\Users\\ddann\\gdfgd"
     },
     "markdown": {
-        "auto_format_links": true,
+        "auto_format_links": "blabal",
         "show_gutter": false
     },
     "preview": {
@@ -11,5 +14,9 @@
     },
     "drawer": {
         "show": true
+    },
+    "about": {
+        "first_name": "hello",
+        "last_name": "lastname"
     }
 }

@@ -1,7 +1,13 @@
 import { ValidationService } from './../../services/validation.service';
 import { ElectronService } from './../../services/electron.service';
 import { Group } from './../../types/preference.types';
-import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   dynamicValidatorFn,
@@ -28,9 +34,6 @@ export class GroupComponent implements OnInit {
   @Input()
   validationOn: string;
 
-  // @Output()
-  // formChange: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
-
   internalForm: FormGroup;
 
   get fields() {
@@ -46,11 +49,6 @@ export class GroupComponent implements OnInit {
   }
 
   ngOnInit() {
-    // const validatorOptions: any = {};
-    // if (this.validationOn) {
-    //   validatorOptions.updateOn = this.validationOn;
-    // }
-
     console.log('group.component', this.group);
     if (this.group && this.group.fields) {
       const fieldsCtrls = {};
@@ -58,7 +56,8 @@ export class GroupComponent implements OnInit {
         if (f.type === 'message') {
           // do nothing
           return;
-        } else if (f.type !== 'checkbox') {
+        } else {
+          // if (f.type !== 'checkbox') {
           const validators = [];
           const asyncValidators = [];
           if (f.required) {
@@ -69,14 +68,32 @@ export class GroupComponent implements OnInit {
             if (lastLetter === '$') {
               console.log('validator is observable', f.validator);
               asyncValidators.push(
-                dynamicAsyncValidatorFn(this.validationService, this.cdRef, f.validator)
+                dynamicAsyncValidatorFn(
+                  this.validationService,
+                  this.cdRef,
+                  f.validator
+                )
               );
             } else {
               console.log('validator is normal', f.validator);
               validators.push(
-                dynamicValidatorFn(this.electronService, this.cdRef, f.validator)
+                dynamicValidatorFn(
+                  this.electronService,
+                  this.cdRef,
+                  f.validator
+                )
               );
             }
+          }
+
+          if (f.type === 'checkbox' && f.options && this.preferences[f.name]) {
+            f.options.map(
+              o => (o.checked = this.preferences[f.name].includes(o.value))
+            );
+          }
+
+          if (f.fixedValue) {
+            this.preferences[f.name] = f.fixedValue;
           }
 
           fieldsCtrls[f.name] = new FormControl(
@@ -84,7 +101,7 @@ export class GroupComponent implements OnInit {
             validators,
             asyncValidators
           );
-        } else {
+        } /* else {
           const opts = {};
           for (const opt of f.options) {
             opts[opt.label] = new FormControl(opt.value);
@@ -94,7 +111,7 @@ export class GroupComponent implements OnInit {
             formGroup.setValue(this.preferences[f.name]);
           }
           fieldsCtrls[f.name] = formGroup;
-        }
+        }*/
 
         this.form.addControl(f.name, fieldsCtrls[f.name]);
       }

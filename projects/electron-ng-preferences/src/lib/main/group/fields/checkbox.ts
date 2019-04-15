@@ -12,18 +12,22 @@ import { FormGroup } from '@angular/forms';
           <input
             type="checkbox"
             id="{{ field.name }}"
-            [formControlName]="opt.label"
+            [checked]="opt.checked"
+            [value]="opt.value"
+            (change)="onChecklistChange($event.target.checked, opt)"
           />
           <label>{{ opt.label }}</label>
         </div>
         <span class="error-message" *ngIf="control.errors?.required"
           >Please fill out this field.</span
         ><span class="waiting-message" *ngIf="control.status === 'PENDING'">
-        Validating...
-      </span>
-        <span class="error-message" *ngIf="control.errors?.dynamicError && field.errorMessage">{{
-          field.errorMessage
-        }}</span>
+          Validating...
+        </span>
+        <span
+          class="error-message"
+          *ngIf="control.errors?.dynamicError && field.errorMessage"
+          >{{ field.errorMessage }}</span
+        >
         <span class="help" *ngIf="field.help">{{ field.help }}</span>
       </div>
     </div>
@@ -42,7 +46,21 @@ export class CheckBoxComponent {
   get value() {
     return this.form.controls[this.field.name].value;
   }
+
+  set value(val) {
+    this.form.controls[this.field.name].setValue(val);
+  }
+
   get control() {
     return this.form.controls[this.field.name];
+  }
+
+  onChecklistChange(checked, opt) {
+    opt.checked = checked;
+    this.value = this.flattenValues(this.field.options);
+  }
+
+  flattenValues(checkboxes) {
+    return checkboxes.filter(c => c.checked).map(c => c.value);
   }
 }

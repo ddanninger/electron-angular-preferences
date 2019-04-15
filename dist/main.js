@@ -32,30 +32,6 @@ var _ = require("lodash");
 var eventemitter2_1 = require("eventemitter2");
 var rxjs_1 = require("rxjs");
 var main_1 = require("rx-ipc-electron-six/lib/main");
-// import ping from 'ping';
-/*export function register(): IpcMainApi {
-  const api: IpcMainApi = {
-    ping: ({ domain, times }) =>
-      interval(1000).pipe(
-        take(times),
-        switchMap(() => from(ping.promise.probe(domain))),
-        map(({ alive, avg }: any) => {
-          if (!alive) {
-            throw new Error(`Host "${domain}" is unreachable`);
-          }
-          return { domain, value: Number(avg) };
-        })
-      ),
-    quitApp: () => {
-      app.quit();
-      return EMPTY;
-    }
-  };
-
-  IPC_MAIN_API_SERVICE.registerApi(api);
-
-  return api;
-}*/
 var ElectronPreferences = /** @class */ (function (_super) {
     __extends(ElectronPreferences, _super);
     function ElectronPreferences(options) {
@@ -84,6 +60,16 @@ var ElectronPreferences = /** @class */ (function (_super) {
         if (!_this.preferences) {
             _this.preferences = _this.defaults;
         }
+        else {
+            // if config file gets populated from other sources as well the file exists already therefore 
+            // set default properties before preferences
+            _this.preferences = _.merge(_this.defaults, _this.preferences);
+            /*Object.keys(this.defaults).forEach(dKey => {
+              if (!this.preferences[dKey]) {
+                this.preferences[dKey] = this.defaults[dKey];
+              }
+            });*/
+        }
         if (options.onLoad instanceof Function) {
             _this.preferences = options.onLoad(_this.preferences);
         }
@@ -106,7 +92,8 @@ var ElectronPreferences = /** @class */ (function (_super) {
             event.returnValue = _this.preferences;
         });
         electron_1.ipcMain.on('setPreferences', function (event, value) {
-            _this.preferences = value;
+            console.log('setPreferences', value);
+            _this.preferences = __assign({}, _this.preferences, value);
             _this.save();
             _this.broadcast();
             _this.emit('save', Object.freeze(_.cloneDeep(_this.preferences)));
@@ -177,7 +164,13 @@ var ElectronPreferences = /** @class */ (function (_super) {
         configurable: true
     });
     ElectronPreferences.prototype.save = function () {
-        fs.writeJsonSync(this.dataStore, this.preferences, {
+        var jsonFile = fs.readJsonSync(this.dataStore, {
+            throws: false
+        });
+        if (!jsonFile) {
+            jsonFile = {};
+        }
+        fs.writeJsonSync(this.dataStore, __assign({}, jsonFile, this.preferences), {
             spaces: 4
         });
     };

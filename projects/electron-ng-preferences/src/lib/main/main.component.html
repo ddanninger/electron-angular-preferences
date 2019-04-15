@@ -1,19 +1,21 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="form">
+<form (ngSubmit)="onSubmit($event)" [formGroup]="form">
   <div class="groups">
-    <group
-      *ngFor="let group of activeSection?.form?.groups"
-      [group]="group"
-      [preferences]="prefs"
-      [form]="activeSectionForm"
-      [validationOn]="options.validationOn"
-    ></group>
+    <ng-container *ngFor="let section of options?.sections">
+      <group
+        *ngFor="let group of section.form?.groups"
+        [group]="group"
+        [preferences]="sectionPreferences(section)"
+        [form]="sectionForm(section)"
+        [validationOn]="options.validationOn"
+        [ngClass]="{
+          'visible-group': groupInActiveSelection(group)
+        }"
+      ></group>
+    </ng-container>
   </div>
   <div class="bottom-bar">
-    <span *ngIf="form.valid">VALID</span>
-    <span *ngIf="form.invalid">INVALID</span>
-    <span *ngIf="form.pending">PENDING</span>
+    <flash-message [message]="flashMessage"></flash-message>
     <button type="submit" class="btn btn-primary">
-      <!-- [disabled]="!form.valid" -->
       Save
     </button>
   </div>

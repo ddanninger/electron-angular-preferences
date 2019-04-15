@@ -44,3 +44,4 @@ testem.log
 .DS_Store
 Thumbs.db
 /projects/electron-ng-preferences/node_modules
+/example/preferences.json

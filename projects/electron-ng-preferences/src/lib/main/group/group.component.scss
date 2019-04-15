@@ -50,7 +50,14 @@
       width: 100%;
       font-size: 14px;
       padding: 4px;
+      background: #fff;
+      border: 1px solid #dadada;
     }
+  }
+
+  .field-readonly {
+    background: #d9dadb !important;
+    border: 1px solid #dadada !important;
   }
 
   .field-radio {
@@ -64,11 +71,13 @@
       width: 100%;
       font-size: 14px;
       padding: 4px;
+      background: #fff;
+      border: 1px solid #dadada;
     }
   }
 
   .field-button {
-    .messsage {
+    .message {
       display: block;
       padding-top: 5px;
       padding-bottom: 5px;
