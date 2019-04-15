@@ -1,0 +1,10 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/*
+ * Public API Surface of electron-ng-preferences
+ */
+export { ElectronNgPreferencesComponent } from './lib/electron-ng-preferences.component';
+export { ElectronNgPreferencesModule } from './lib/electron-ng-preferences.module';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljLWFwaS5qcyIsInNvdXJjZVJvb3QiOiJuZzovL2VsZWN0cm9uLW5nLXByZWZlcmVuY2VzLyIsInNvdXJjZXMiOlsicHVibGljLWFwaS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBSUEsK0NBQWMseUNBQXlDLENBQUM7QUFDeEQsNENBQWMsc0NBQXNDLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogUHVibGljIEFQSSBTdXJmYWNlIG9mIGVsZWN0cm9uLW5nLXByZWZlcmVuY2VzXG4gKi9cblxuZXhwb3J0ICogZnJvbSAnLi9saWIvZWxlY3Ryb24tbmctcHJlZmVyZW5jZXMuY29tcG9uZW50JztcbmV4cG9ydCAqIGZyb20gJy4vbGliL2VsZWN0cm9uLW5nLXByZWZlcmVuY2VzLm1vZHVsZSc7XG4iXX0=
