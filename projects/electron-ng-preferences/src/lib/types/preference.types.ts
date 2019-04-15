@@ -35,7 +35,7 @@ export interface Field {
 export interface OptionItem {
   label: string;
   value: string;
-  checked: boolean;
+  checked?: boolean;
 }
 
 export interface PreferenceOptions {

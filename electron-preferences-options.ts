@@ -30,5 +30,5 @@ export interface ElectronPreferencesOptions {
   validationOn?: string;
   actions?: ElectronPreferencesValidators;
   sections: ElectronPreferencesSections[];
-  window: BrowserWindowConstructorOptions;
+  window?: BrowserWindowConstructorOptions;
 }
