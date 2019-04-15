@@ -16,7 +16,9 @@ import { FormGroup } from '@angular/forms';
         </select>
         <span class="error-message" *ngIf="control.errors?.required"
           >Please fill out this field.</span
-        >
+        ><span class="waiting-message" *ngIf="control.status === 'PENDING'">
+        Validating...
+      </span>
         <span class="error-message" *ngIf="control.errors?.dynamicError && field.errorMessage">{{
           field.errorMessage
         }}</span>

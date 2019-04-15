@@ -154,6 +154,7 @@ const preferences = new ElectronPreferences({
                 label: 'Validate me',
                 name: 'validate_me',
                 type: 'text',
+                required: true,
                 help: 'field must be "test"',
                 validator: 'validate_me',
                 errorMessage: 'Field value is not "test"!'
@@ -162,6 +163,7 @@ const preferences = new ElectronPreferences({
                 label: 'Async Ping test',
                 name: 'async_validate',
                 type: 'text',
+                required: true,
                 help: 'Provide a domain to make a ping test',
                 validator: 'async_ping$',
                 errorMessage: 'Field value is not "test"!'

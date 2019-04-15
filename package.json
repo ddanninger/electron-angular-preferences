@@ -33,6 +33,7 @@
     "core-js": "^2.5.4",
     "eventemitter2": "^5.0.1",
     "fs-extra": "^7.0.1",
+    "ngx-loading": "^3.0.1",
     "ngx-ui-switch": "^8.0.1",
     "rx-ipc-electron-six": "^0.1.1",
     "rxjs": "^6.3.3",

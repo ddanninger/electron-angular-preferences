@@ -15,7 +15,7 @@ export class ValidationService {
     console.log('ValidationService', this.rxIpc);
   }
 
-  validateAsync(name: string, val: string): Observable<any> {
+  validateAsync(name: string, val: string): Observable<boolean> {
     return this.rxIpc.runCommand('runObservableValidator', null, name, val);
   }
 

@@ -1,7 +1,7 @@
 import { ValidationService } from './../../services/validation.service';
 import { ElectronService } from './../../services/electron.service';
 import { Group } from './../../types/preference.types';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   dynamicValidatorFn,
@@ -12,7 +12,8 @@ import {
   // tslint:disable-next-line:component-selector
   selector: 'group',
   templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss']
+  styleUrls: ['./group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupComponent implements OnInit {
   @Input()
@@ -38,8 +39,11 @@ export class GroupComponent implements OnInit {
 
   constructor(
     private electronService: ElectronService,
-    private validationService: ValidationService
-  ) {}
+    private validationService: ValidationService,
+    private cdRef: ChangeDetectorRef
+  ) {
+    cdRef.markForCheck();
+  }
 
   ngOnInit() {
     // const validatorOptions: any = {};
@@ -65,12 +69,12 @@ export class GroupComponent implements OnInit {
             if (lastLetter === '$') {
               console.log('validator is observable', f.validator);
               asyncValidators.push(
-                dynamicAsyncValidatorFn(this.validationService, f.validator)
+                dynamicAsyncValidatorFn(this.validationService, this.cdRef, f.validator)
               );
             } else {
               console.log('validator is normal', f.validator);
               validators.push(
-                dynamicValidatorFn(this.electronService, f.validator)
+                dynamicValidatorFn(this.electronService, this.cdRef, f.validator)
               );
             }
           }
@@ -98,5 +102,7 @@ export class GroupComponent implements OnInit {
       // this.internalForm = new FormGroup(fieldsCtrls);
       // this.formChange.emit(this.form);
     }
+
+    this.cdRef.markForCheck();
   }
 }
