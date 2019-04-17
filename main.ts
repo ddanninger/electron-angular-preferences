@@ -8,7 +8,7 @@ import { EventEmitter2 } from 'eventemitter2';
 import { from, interval, of } from 'rxjs';
 import { map, take, switchMap } from 'rxjs/operators';
 import rxIpc from 'rx-ipc-electron-six/lib/main';
-import { ElectronPreferencesOptions } from 'shared/electron-preferences-options';
+import { ElectronPreferencesOptions } from './shared/electron-preferences-options';
 
 export default class ElectronPreferences extends EventEmitter2 {
   options: any;

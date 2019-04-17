@@ -45,3 +45,4 @@ testem.log
 Thumbs.db
 /projects/electron-ng-preferences/node_modules
 /example/preferences.json
+/dist

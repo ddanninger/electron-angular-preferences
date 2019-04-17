@@ -1,14 +1,13 @@
 {
   "name": "electron-angular-preferences",
   "description": "Electron extendable preference window build in angular 7",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "./dist/main.js",
   "author": "Dominik Danninger <ddanninger@gmail.com>",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "build:app": "ng build --prod",
-    "build:lib": "ng build electron-ng-preferences --prod",
     "build:electron": "tsc -p tsconfig-electron.json",
     "build": "npm run build:app && npm run build:electron",
     "postinstall": "npm run build",
