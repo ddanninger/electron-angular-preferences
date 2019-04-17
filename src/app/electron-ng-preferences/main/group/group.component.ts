@@ -1,6 +1,6 @@
 import { ValidationService } from './../../services/validation.service';
 import { ElectronService } from './../../services/electron.service';
-import { Group } from './../../types/preference.types';
+import { Group } from '@shared/preference.types';
 import {
   Component,
   OnInit,

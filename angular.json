@@ -117,44 +117,6 @@
           }
         }
       }
-    },
-    "electron-ng-preferences": {
-      "root": "projects/electron-ng-preferences",
-      "sourceRoot": "projects/electron-ng-preferences/src",
-      "projectType": "library",
-      "prefix": "electron-ng-preferences",
-      "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss"
-        }
-      },
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/electron-ng-preferences/tsconfig.lib.json",
-            "project": "projects/electron-ng-preferences/ng-package.json"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/electron-ng-preferences/src/test.ts",
-            "tsConfig": "projects/electron-ng-preferences/tsconfig.spec.json",
-            "karmaConfig": "projects/electron-ng-preferences/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/electron-ng-preferences/tsconfig.lib.json",
-              "projects/electron-ng-preferences/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
     }
   },
   "defaultProject": "electron-angular-preferences"

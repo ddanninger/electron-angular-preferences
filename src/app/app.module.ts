@@ -1,8 +1,8 @@
-import { ElectronNgPreferencesModule } from 'electron-ng-preferences';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { ElectronNgPreferencesModule } from './electron-ng-preferences/electron-ng-preferences.module';
 
 @NgModule({
   declarations: [AppComponent],

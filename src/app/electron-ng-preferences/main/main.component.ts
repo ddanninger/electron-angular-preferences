@@ -4,7 +4,7 @@ import {
 } from './flash-message/flash-message.component';
 import { ElectronService } from './../services/electron.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PreferenceOptions, Section } from '../types/preference.types';
+import { PreferenceOptions, Section } from '@shared/preference.types';
 import { FormGroup } from '@angular/forms';
 
 @Component({

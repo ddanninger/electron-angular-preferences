@@ -1,4 +1,4 @@
-import { ElectronPreferencesOptions } from './electron-preferences-options';
+
 import { BrowserWindow, ipcMain, webContents } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
@@ -8,6 +8,7 @@ import { EventEmitter2 } from 'eventemitter2';
 import { from, interval, of } from 'rxjs';
 import { map, take, switchMap } from 'rxjs/operators';
 import rxIpc from 'rx-ipc-electron-six/lib/main';
+import { ElectronPreferencesOptions } from '@shared/electron-preferences-options';
 
 export default class ElectronPreferences extends EventEmitter2 {
   options: any;

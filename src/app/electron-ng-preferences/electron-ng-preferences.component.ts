@@ -1,8 +1,9 @@
 import { ElectronService } from './services/electron.service';
-import { Section, PreferenceOptions } from './types/preference.types';
+import { Section, PreferenceOptions } from '@shared/preference.types';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'electron-ng-preferences',
   templateUrl: './electron-ng-preferences.component.html',
   styleUrls: ['./electron-ng-preferences.component.scss']

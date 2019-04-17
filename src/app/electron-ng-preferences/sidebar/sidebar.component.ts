@@ -1,4 +1,4 @@
-import { Section, PreferenceOptions } from '../types/preference.types';
+import { Section, PreferenceOptions } from '@shared/preference.types';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({

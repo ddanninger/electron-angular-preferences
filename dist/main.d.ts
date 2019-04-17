@@ -1,5 +1,5 @@
-import { ElectronPreferencesOptions } from './electron-preferences-options';
 import { EventEmitter2 } from 'eventemitter2';
+import { ElectronPreferencesOptions } from '@shared/electron-preferences-options';
 export default class ElectronPreferences extends EventEmitter2 {
     options: any;
     _preferences: any;
