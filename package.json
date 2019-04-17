@@ -8,7 +8,7 @@
   "scripts": {
     "ng": "ng",
     "build:app": "ng build --prod",
-    "build:lib": "ng build electron-ng-preferences",
+    "build:lib": "ng build electron-ng-preferences --prod",
     "build:electron": "tsc -p tsconfig-electron.json",
     "build": "npm run build:lib && npm run build:app && npm run build:electron",
     "example": "cd example && electron .",
