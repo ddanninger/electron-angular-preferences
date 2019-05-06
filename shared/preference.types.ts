@@ -27,7 +27,10 @@ export interface Field {
   required?: boolean;
   readonly?: boolean;
   fixedValue?: string;
-  errorMessage?: string;
+  // errorMessage?: string;
+  // successMessage?: string;
+  // setInvalidOnFalse?: boolean;
+  // actionIsBoolean?: boolean;
   validator?: string;
   action?: string;
 }

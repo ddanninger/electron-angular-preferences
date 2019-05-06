@@ -1,3 +1,4 @@
+import { LaddaBtnFieldComponent } from './main/group/fields/ladda-button';
 import { FlashMessageComponent } from './main/flash-message/flash-message.component';
 import { BtnFieldComponent } from './main/group/fields/button';
 import { BooleanComponent } from './main/group/fields/boolean';
@@ -21,6 +22,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { ValidationService } from './services/validation.service';
+import { LaddaModule } from 'angular2-ladda';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { ValidationService } from './services/validation.service';
     MessageComponent,
     BooleanComponent,
     BtnFieldComponent,
+    LaddaBtnFieldComponent,
     ElectronNgPreferencesComponent
   ],
   providers: [ElectronService, ValidationService],
@@ -43,7 +46,8 @@ import { ValidationService } from './services/validation.service';
     CommonModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    UiSwitchModule
+    UiSwitchModule,
+    LaddaModule
   ],
   exports: [ElectronNgPreferencesComponent]
 })

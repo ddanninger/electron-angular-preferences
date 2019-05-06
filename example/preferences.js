@@ -84,6 +84,21 @@ const preferences = new ElectronPreferences({
           return `I pinged ${domain} and avg=${avg}`;
         })
       );
+    },
+    btn_actionObject$: form => {
+      console.log('run action btn_action$', form);
+      const domain = 'www.google.com';
+      return interval(1000).pipe(
+        take(1),
+        switchMap(() => from(ping.promise.probe(domain))),
+        map(({ alive, avg }) => {
+          console.log('btn_action$', alive, avg);
+          if (!alive) {
+            return { message: `I couldnt ping ${domain}`, color: 'red' };
+          }
+          return { message: `I pinged ${domain} and avg=${avg}`, color: 'green' };
+        })
+      );
     }
   },
   sections: [
@@ -181,8 +196,15 @@ const preferences = new ElectronPreferences({
               {
                 label: 'Test button$',
                 name: 'button',
-                type: 'button',
+                type: 'spinner-button',
                 action: 'btn_action$',
+                help: 'Ping me'
+              },
+              {
+                label: 'Test object button$',
+                name: 'button',
+                type: 'spinner-button',
+                action: 'btn_actionObject$',
                 help: 'Ping me'
               }
             ]
