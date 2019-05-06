@@ -1,4 +1,3 @@
-
 import { BrowserWindow, ipcMain, webContents } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
@@ -138,6 +137,21 @@ export default class ElectronPreferences extends EventEmitter2 {
     if (_.isFunction(options.afterLoad)) {
       options.afterLoad(this);
     }
+  }
+
+  public static sneakSettings(dataStore: string, key: string) {
+    try {
+      const settings = fs.readJsonSync(dataStore, {
+        throws: false
+      });
+      const setting = key
+        .split('.')
+        .reduce((p, c) => (p && p[c]) || null, settings);
+      if (setting) {
+        return setting;
+      }
+    } catch (e) {}
+    return null;
   }
 
   get dataStore() {
