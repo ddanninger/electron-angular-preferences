@@ -1,7 +1,7 @@
 {
   "name": "electron-angular-preferences",
   "description": "Electron extendable preference window build in angular 7",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "main": "./dist/main.js",
   "author": "Dominik Danninger <ddanninger@gmail.com>",
   "license": "MIT",

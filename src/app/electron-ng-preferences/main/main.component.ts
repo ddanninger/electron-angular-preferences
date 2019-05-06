@@ -26,6 +26,12 @@ export class MainComponent implements OnInit {
   form: FormGroup;
   flashMessage: FlashMessage;
 
+  messages: any = {
+    save: 'Save',
+    saved: 'Successfully saved.',
+    invalid: 'Form is not valid.'
+  };
+
   get prefs() {
     return this.preferences[this.activeSection.name];
   }
@@ -56,6 +62,10 @@ export class MainComponent implements OnInit {
     });
     this.form = new FormGroup(formGroups, validatorOptions);
     console.log('main.ocmponent form is', this.form, validatorOptions);
+
+    if (this.options.messages) {
+      this.messages = [...this.messages, ...this.options.messages];
+    }
   }
 
   save() {
@@ -80,14 +90,14 @@ export class MainComponent implements OnInit {
 
   showSavedMessage() {
     this.flashMessage = {
-      message: 'Successfully saved.',
+      message: this.messages.saved,
       level: FlashMessageLevel.SUCCESS
     };
   }
 
   showErrorMessage() {
     this.flashMessage = {
-      message: 'Form is not valid.',
+      message: this.messages.invalid,
       level: FlashMessageLevel.ERROR
     };
   }

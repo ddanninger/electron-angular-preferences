@@ -28,6 +28,11 @@ export interface ElectronPreferencesOptions {
   webPreferences: WebPreferences;
   validators?: ElectronPreferencesValidators;
   validationOn?: string;
+  messages: {
+    save: string,
+    saved: string,
+    invalid: string
+  };
   actions?: ElectronPreferencesValidators;
   sections: ElectronPreferencesSections[];
   window?: BrowserWindowConstructorOptions;
