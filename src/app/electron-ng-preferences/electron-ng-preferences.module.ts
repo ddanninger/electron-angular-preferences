@@ -1,3 +1,4 @@
+import { ShortcutComponent } from './main/group/fields/shortcut';
 import { LaddaBtnFieldComponent } from './main/group/fields/ladda-button';
 import { FlashMessageComponent } from './main/flash-message/flash-message.component';
 import { BtnFieldComponent } from './main/group/fields/button';
@@ -31,6 +32,7 @@ import { LaddaModule } from 'angular2-ladda';
     GroupComponent,
     FlashMessageComponent,
     CheckBoxComponent,
+    ShortcutComponent,
     DirectoryComponent,
     TextBoxComponent,
     RadioComponent,

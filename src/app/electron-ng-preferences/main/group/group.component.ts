@@ -49,7 +49,6 @@ export class GroupComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('group.component', this.group);
     if (this.group && this.group.fields) {
       const fieldsCtrls = {};
       for (const f of this.group.fields) {
@@ -66,7 +65,6 @@ export class GroupComponent implements OnInit {
           if (f.validator) {
             const lastLetter = f.validator.substr(-1);
             if (lastLetter === '$') {
-              console.log('validator is observable', f.validator);
               asyncValidators.push(
                 dynamicAsyncValidatorFn(
                   this.validationService,
@@ -75,7 +73,6 @@ export class GroupComponent implements OnInit {
                 )
               );
             } else {
-              console.log('validator is normal', f.validator);
               validators.push(
                 dynamicValidatorFn(
                   this.electronService,
@@ -101,23 +98,10 @@ export class GroupComponent implements OnInit {
             validators,
             asyncValidators
           );
-        } /* else {
-          const opts = {};
-          for (const opt of f.options) {
-            opts[opt.label] = new FormControl(opt.value);
-          }
-          const formGroup = new FormGroup(opts);
-          if (this.preferences[f.name]) {
-            formGroup.setValue(this.preferences[f.name]);
-          }
-          fieldsCtrls[f.name] = formGroup;
-        }*/
+        }
 
         this.form.addControl(f.name, fieldsCtrls[f.name]);
       }
-
-      // this.internalForm = new FormGroup(fieldsCtrls);
-      // this.formChange.emit(this.form);
     }
 
     this.cdRef.markForCheck();

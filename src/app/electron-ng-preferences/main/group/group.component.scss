@@ -68,6 +68,58 @@
   .field-checkbox {
   }
 
+  .field-shortcut {
+    .shortcut-wrapper {
+      height: 30px;
+      display: flex;
+
+      .btn {
+        height: 100% !important;
+        margin: 0px !important;
+      }
+    }
+
+    .shortcut-input {
+      width: 40px;
+      height: 100%;
+      font-size: 14px;
+      padding: 4px;
+      background-color: rgb(243, 243, 243);
+      border: 1px solid #dadada;
+    }
+
+    .shortcuts {
+      line-height: 2.5;
+      display: flex;
+      height: 100%;
+      margin-left: 10px;
+
+      .shortcut {
+        span {
+          padding: 5px;
+          background: #fff;
+          border-radius: 8px;
+          line-height: 2.5;
+          border: 1px solid #dadada;
+          // font-family: monospace;
+          font-size: 14px;
+          // font-weight: bold;
+        }
+        // margin: 0px 5px;
+
+        &::after {
+          content: '+';
+        }
+      }
+
+      .shortcut:last-child {
+        &::after {
+          content: '';
+        }
+      }
+    }
+  }
+
   .field-dropdown {
     select {
       width: 100%;
@@ -100,5 +152,9 @@
     padding-bottom: 5px;
     font-size: 12px;
     color: #8c0707;
+  }
+
+  .d-flex {
+    display: flex;
   }
 }

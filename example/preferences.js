@@ -269,7 +269,13 @@ const preferences = new ElectronPreferences({
                   { label: 'FooBar', value: 'foobar' }
                 ],
                 help: 'Foo? Bar?'
-              }
+              },
+              {
+                label: 'Shortcut',
+                name: 'shortcut',
+                type: 'shortcut',
+                help: 'Shortcut field'
+              },
             ]
           }
         ]

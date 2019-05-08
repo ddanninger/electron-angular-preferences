@@ -296,6 +296,39 @@ ipcRenderer.on('preferencesUpdated', (e, preferences) => {
 ipcRenderer.sendSync('setPreferences', { ... });
 ```
 
+## Actions
+
+Defining actions via the action attribute
+An action can return either a string or an object 
+
+```{ message: string, color: string }``` 
+
+where color stands for the text color.
+
+### Observable Actions
+
+Observable action names should end with $
+
+```
+btn_actionObject$: form => {
+  const domain = form.domain;
+  return interval(1000).pipe(
+    take(1),
+    switchMap(() => from(ping.promise.probe(domain))),
+    map(({ alive, avg }) => {
+      if (!alive) {
+        return { message: `I couldnt ping ${domain}`, color: 'red' };
+      }
+      return { message: `I pinged ${domain} and avg=${avg}`, color: 'green' };
+    })
+  );
+}
+```
+
+### Usecases
+
+e.g you want to implement a test connection button to validate if the domain is reachable
+
 ## Field Types
 
 The library includes built-in support for the following field types:
@@ -307,8 +340,9 @@ The library includes built-in support for the following field types:
 - Checkbox ( checkbox )
 - Radio ( radio )
 - Switch ( boolean )
+- Spinner Button ( spinner-button )
 - Button ( button )
-
+- Shortcut ( shortcut )
 
 ## Icons
 
