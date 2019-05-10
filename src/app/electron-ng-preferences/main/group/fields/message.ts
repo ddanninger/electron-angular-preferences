@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ElectronPreferencesMessages } from '@shared/electron-preferences-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -16,6 +17,7 @@ import { FormGroup } from '@angular/forms';
 export class MessageComponent {
   @Input() field: any = {};
   @Input() form: FormGroup;
+  @Input() messages: ElectronPreferencesMessages;
 
   constructor() {}
 }

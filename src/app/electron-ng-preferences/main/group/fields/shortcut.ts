@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ElectronPreferencesMessages } from '@shared/electron-preferences-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -32,6 +33,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ShortcutComponent {
   @Input() field: any = {};
   @Input() form: FormGroup;
+  @Input() messages: ElectronPreferencesMessages;
 
   message: string;
   keyCount = 0;

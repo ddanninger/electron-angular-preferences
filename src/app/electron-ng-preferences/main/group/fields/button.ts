@@ -2,6 +2,7 @@ import { ValidationService } from './../../../services/validation.service';
 import { ElectronService } from './../../../services/electron.service';
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ElectronPreferencesMessages } from '@shared/electron-preferences-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,6 +20,7 @@ import { FormGroup } from '@angular/forms';
 export class BtnFieldComponent {
   @Input() field: any = {};
   @Input() form: FormGroup;
+  @Input() messages: ElectronPreferencesMessages;
 
   message: string;
 

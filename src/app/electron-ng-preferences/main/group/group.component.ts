@@ -13,6 +13,7 @@ import {
   dynamicValidatorFn,
   dynamicAsyncValidatorFn
 } from './validators/dynamic.validator';
+import { ElectronPreferencesMessages } from '@shared/electron-preferences-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -33,6 +34,9 @@ export class GroupComponent implements OnInit {
 
   @Input()
   validationOn: string;
+
+  @Input()
+  messages: ElectronPreferencesMessages;
 
   internalForm: FormGroup;
 

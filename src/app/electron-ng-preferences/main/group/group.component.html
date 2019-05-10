@@ -1,27 +1,65 @@
 <div class="group-label" *ngIf="group.label">{{ group.label }}</div>
 <div *ngFor="let field of fields">
   <ng-container [ngSwitch]="field.type">
-    <textbox *ngSwitchCase="'text'" [field]="field" [form]="form"></textbox>
+    <textbox
+      *ngSwitchCase="'text'"
+      [field]="field"
+      [form]="form"
+      [messages]="messages"
+    ></textbox>
     <dropdown
       *ngSwitchCase="'dropdown'"
       [field]="field"
       [form]="form"
+      [messages]="messages"
     ></dropdown>
     <checkbox
       *ngSwitchCase="'checkbox'"
       [field]="field"
       [form]="form"
+      [messages]="messages"
     ></checkbox>
-    <radio *ngSwitchCase="'radio'" [field]="field" [form]="form"></radio>
+    <radio
+      *ngSwitchCase="'radio'"
+      [field]="field"
+      [form]="form"
+      [messages]="messages"
+    ></radio>
     <directory
       *ngSwitchCase="'directory'"
       [field]="field"
       [form]="form"
+      [messages]="messages"
     ></directory>
-    <message *ngSwitchCase="'message'" [field]="field" [form]="form"></message>
-    <boolean *ngSwitchCase="'boolean'" [field]="field" [form]="form"></boolean>
-    <btnfield *ngSwitchCase="'button'" [field]="field" [form]="form"></btnfield>
-    <laddabtnfield *ngSwitchCase="'spinner-button'" [field]="field" [form]="form"></laddabtnfield>
-    <shortcut *ngSwitchCase="'shortcut'" [field]="field" [form]="form"></shortcut>
+    <message
+      *ngSwitchCase="'message'"
+      [field]="field"
+      [form]="form"
+      [messages]="messages"
+    ></message>
+    <boolean
+      *ngSwitchCase="'boolean'"
+      [field]="field"
+      [form]="form"
+      [messages]="messages"
+    ></boolean>
+    <btnfield
+      *ngSwitchCase="'button'"
+      [field]="field"
+      [form]="form"
+      [messages]="messages"
+    ></btnfield>
+    <laddabtnfield
+      *ngSwitchCase="'spinner-button'"
+      [field]="field"
+      [form]="form"
+      [messages]="messages"
+    ></laddabtnfield>
+    <shortcut
+      *ngSwitchCase="'shortcut'"
+      [field]="field"
+      [form]="form"
+      [messages]="messages"
+    ></shortcut>
   </ng-container>
 </div>

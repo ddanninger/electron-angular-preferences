@@ -6,6 +6,7 @@ import { ElectronService } from './../services/electron.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PreferenceOptions, Section } from '@shared/preference.types';
 import { FormGroup } from '@angular/forms';
+import { ElectronPreferencesMessages } from '@shared/electron-preferences-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -26,10 +27,13 @@ export class MainComponent implements OnInit {
   form: FormGroup;
   flashMessage: FlashMessage;
 
-  messages: any = {
+  messages: ElectronPreferencesMessages = {
     save: 'Save',
     saved: 'Successfully saved.',
-    invalid: 'Form is not valid.'
+    invalid: 'Form is not valid.',
+    chooseFolder: 'Choose a Folder',
+    validating: 'Validating...',
+    required: 'Please fill out this field.'
   };
 
   get prefs() {
@@ -64,7 +68,8 @@ export class MainComponent implements OnInit {
     console.log('main.ocmponent form is', this.form, validatorOptions);
 
     if (this.options.messages) {
-      this.messages = [...this.messages, ...this.options.messages];
+      console.log('messages ', this.options.messages);
+      this.messages = {...this.messages, ...this.options.messages};
     }
   }
 

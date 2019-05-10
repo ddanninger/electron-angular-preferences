@@ -3,6 +3,7 @@ import { ElectronService } from './../../../services/electron.service';
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
+import { ElectronPreferencesMessages } from '@shared/electron-preferences-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -25,6 +26,7 @@ import { tap } from 'rxjs/operators';
 export class LaddaBtnFieldComponent {
   @Input() field: any = {};
   @Input() form: FormGroup;
+  @Input() messages: ElectronPreferencesMessages;
 
   message: string;
   messageColor = 'black';

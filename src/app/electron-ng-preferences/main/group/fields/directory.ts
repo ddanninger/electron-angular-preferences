@@ -1,3 +1,4 @@
+import { ElectronPreferencesMessages } from './../../../../../../shared/electron-preferences-options';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ElectronService } from '../../../services/electron.service';
@@ -11,10 +12,10 @@ import { ElectronService } from '../../../services/electron.service';
         <div class="field-label">{{ field.label }}</div>
         <div class="value">Folder: {{ control?.value }}</div>
         <div class="btn" (click)="chooseFolder()">
-          {{ btnLabel }}
+          {{ messages.chooseFolder }}
         </div>
         <span class="error-message" *ngIf="control.errors?.required"
-          >Please fill out this field.</span
+          >{{ messages.required }}</span
         >
         <span
           class="error-message"
@@ -22,7 +23,7 @@ import { ElectronService } from '../../../services/electron.service';
           >{{ field.errorMessage }}</span
         >
         <span class="waiting-message" *ngIf="control.status === 'PENDING'">
-          Validating...
+          {{ messages.validating }}
         </span>
         <span class="help" *ngIf="field.help">{{ field.help }}</span>
         <input [formControlName]="field.name" type="hidden" />
@@ -33,6 +34,7 @@ import { ElectronService } from '../../../services/electron.service';
 export class DirectoryComponent {
   @Input() field: any = {};
   @Input() form: FormGroup;
+  @Input() messages: ElectronPreferencesMessages;
 
   dialog: any;
 
@@ -41,7 +43,6 @@ export class DirectoryComponent {
   // onChange: EventEmitter<any> = new EventEmitter();
 
   selectedFolder: string;
-  btnLabel = 'Choose a Folder';
 
   get isValid() {
     return this.form.controls[this.field.name].valid;

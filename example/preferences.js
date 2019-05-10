@@ -41,6 +41,9 @@ const preferences = new ElectronPreferences({
   webPreferences: {
     devTools: true
   },
+  messages: {
+    save: 'Save settings'
+  },
   validators: {
     validate_me: val => {
       console.log('run validator validate_me', val);

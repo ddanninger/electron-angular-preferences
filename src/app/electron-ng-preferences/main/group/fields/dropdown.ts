@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ElectronPreferencesMessages } from '@shared/electron-preferences-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -15,9 +16,9 @@ import { FormGroup } from '@angular/forms';
           }}</option>
         </select>
         <span class="error-message" *ngIf="control.errors?.required"
-          >Please fill out this field.</span
+          >{{ messages.required }}</span
         ><span class="waiting-message" *ngIf="control.status === 'PENDING'">
-        Validating...
+        {{ messages.validating }}
       </span>
         <span class="error-message" *ngIf="control.errors?.dynamicError && field.errorMessage">{{
           field.errorMessage
@@ -30,6 +31,7 @@ import { FormGroup } from '@angular/forms';
 export class DropDownComponent {
   @Input() field: any = {};
   @Input() form: FormGroup;
+  @Input() messages: ElectronPreferencesMessages;
 
   get value() {
     return this.form.controls[this.field.name].value;

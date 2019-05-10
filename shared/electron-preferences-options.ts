@@ -28,12 +28,17 @@ export interface ElectronPreferencesOptions {
   webPreferences: WebPreferences;
   validators?: ElectronPreferencesValidators;
   validationOn?: string;
-  messages: {
-    save: string,
-    saved: string,
-    invalid: string
-  };
+  messages?: ElectronPreferencesMessages;
   actions?: ElectronPreferencesValidators;
   sections: ElectronPreferencesSections[];
   window?: BrowserWindowConstructorOptions;
+}
+
+export interface ElectronPreferencesMessages {
+  save?: string;
+  saved?: string;
+  invalid?: string;
+  chooseFolder?: string;
+  required?: string;
+  validating?: string;
 }
